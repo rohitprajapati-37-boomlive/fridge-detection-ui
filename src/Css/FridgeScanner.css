@@ -1,0 +1,31 @@
+
+.border.border-dashed.border-gray-300.p-6.rounded-lg.text-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 2rem;
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    background: #fafafa;
+    transition: all 0.3s ease;}
+
+button.p-3.rounded.border.text-center.transition.border-gray-200 {
+    display: flex;
+    align-items: center;
+    border-radius: 2.5rem;
+    padding: 0.4rem;
+    gap: 0.8rem;
+}
+
+
+.transition {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    display: flex;
+    align-items: center;
+    border-radius: 2.5rem;
+    padding: 0.4rem;
+    gap: 0.8rem;
+}

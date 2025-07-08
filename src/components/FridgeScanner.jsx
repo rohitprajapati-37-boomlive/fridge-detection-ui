@@ -17,24 +17,29 @@ const IFNRecipeApp = () => {
   const [error, setError] = useState(null);
 
   const fetchRecipes = async (ingredientsList) => {
-    try {
-      const query = ingredientsList.join(',');
-      const response = await fetch(`http://p0wkg088og0wgc4044wccswc.178.16.139.168.sslip.io/find_recipe?ingredients=${query}`);
-      const data = await response.json();
-      console.log("🍲 Fetched Recipe Data ➤", data);
-      if (Array.isArray(data.recipes)) {
-        setRecipeDatabase(data.recipes);
-      } else {
-        console.error("❌ No 'recipes' array in API response");
-        setRecipeDatabase([]);
-      }
-    } catch (error) {
-      console.error("⚠️ Failed to fetch recipes:", error);
+  try {
+    // Format the query: ?ingredients=tomato&ingredients=onion
+    const query = ingredientsList.map(ingredient => `ingredients=${encodeURIComponent(ingredient)}`).join('&');
+    
+    const response = await fetch(`http://p0wkg088og0wgc4044wccswc.178.16.139.168.sslip.io/find_recipe?${query}`);
+    const data = await response.json();
+
+    console.log("🍲 Fetched Recipe Data ➤", data);
+    
+    if (Array.isArray(data.recipes)) {
+      setRecipeDatabase(data.recipes);
+    } else {
+      console.error("❌ No 'recipes' array in API response");
       setRecipeDatabase([]);
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (error) {
+    console.error("⚠️ Failed to fetch recipes:", error);
+    setRecipeDatabase([]);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const availableIngredients = [
     { id: 'rice', name: 'Rice', emoji: '🍚' },

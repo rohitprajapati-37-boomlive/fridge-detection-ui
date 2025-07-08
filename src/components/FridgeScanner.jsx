@@ -17,28 +17,30 @@ const IFNRecipeApp = () => {
   const [error, setError] = useState(null);
 
   const fetchRecipes = async (ingredientsList) => {
-  try {
-    // Format the query: ?ingredients=tomato&ingredients=onion
-    const query = ingredientsList.map(ingredient => `ingredients=${encodeURIComponent(ingredient)}`).join('&');
-    
-    const response = await fetch(`http://p0wkg088og0wgc4044wccswc.178.16.139.168.sslip.io/find_recipe?${query}`);
-    const data = await response.json();
 
-    console.log("🍲 Fetched Recipe Data ➤", data);
-    
-    if (Array.isArray(data.recipes)) {
-      setRecipeDatabase(data.recipes);
-    } else {
-      console.error("❌ No 'recipes' array in API response");
+    try {
+      // Format the query: ?ingredients=tomato&ingredients=onion
+      const query = ingredientsList.map(ingredient => `ingredients=${encodeURIComponent(ingredient)}`).join('&');
+
+      console.log(query)
+      const response = await fetch(`https://p0wkg088og0wgc4044wccswc.178.16.139.168.sslip.io/find_recipe?${query}`);
+      const data = await response.json();
+      console.log(response)
+      console.log("🍲 Fetched Recipe Data ➤", data);
+
+      if (Array.isArray(data.recipes)) {
+        setRecipeDatabase(data.recipes);
+      } else {
+        console.error("❌ No 'recipes' array in API response");
+        setRecipeDatabase([]);
+      }
+    } catch (error) {
+      console.error("⚠️ Failed to fetch recipes:", error);
       setRecipeDatabase([]);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("⚠️ Failed to fetch recipes:", error);
-    setRecipeDatabase([]);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
 
   const availableIngredients = [
@@ -208,11 +210,10 @@ const IFNRecipeApp = () => {
             <button
               key={ingredient.id}
               onClick={() => toggleIngredient(ingredient.id)}
-              className={`p-3 rounded border text-center transition ${
-                selectedIngredients.includes(ingredient.id)
+              className={`p-3 rounded border text-center transition ${selectedIngredients.includes(ingredient.id)
                   ? 'bg-red-100 border-red-400'
                   : 'border-gray-200'
-              }`}
+                }`}
             >
               <div className="text-2xl">{ingredient.emoji}</div>
               <div className="text-sm">{ingredient.name}</div>
@@ -254,14 +255,17 @@ const IFNRecipeApp = () => {
         </div>
 
         <button
-          onClick={() => setShowRecipes(true)}
+          onClick={() => {
+            fetchRecipes(selectedIngredients);
+            setShowRecipes(true);
+          }}
           disabled={selectedIngredients.length === 0}
-          className={`w-full p-4 text-white rounded ${
-            selectedIngredients.length ? 'bg-red-600' : 'bg-gray-300 cursor-not-allowed'
-          }`}
+          className={`w-full p-4 text-white rounded ${selectedIngredients.length ? 'bg-red-600' : 'bg-gray-300 cursor-not-allowed'
+            }`}
         >
           <Search className="inline mr-2" /> Find Perfect Recipes for Me!
         </button>
+
       </div>
     </div>
   );

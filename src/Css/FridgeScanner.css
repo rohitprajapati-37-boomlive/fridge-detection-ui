@@ -1,4 +1,46 @@
 
+.row-bord-dec-rk {
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    background: #fafafa;
+    transition: all 0.3s ease;
+}
+
+.row-bord-dec-rk:hover {
+    border-color: #E63946;
+    background: #fff5f5;
+
+}
+
+
+
+
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
+
+.btn-txt-itm-rk {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.5rem;
+    border: 1px solid #f0f0f0;
+    border-radius: 2rem;
+}
+.btn-txt-itm-rk:hover {
+    background: #E63946;
+    color: white;
+     border: 1px solid #E63946;
+}
+
+
+
 .border.border-dashed.border-gray-300.p-6.rounded-lg.text-center {
     display: flex;
     flex-direction: column;

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import './App.css';
 import Navbar from "./components/Navbar";
-import FridgeScanner from "./components/FridgeScanner";
+// import IFNRecipeApp from "./components/old-IFNRecipeApp";
+import IFNRecipeApp from "./components/IFNRecipeApp";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         </section>
 
       <main className=" bg-[#fff] min-h-screen  main-section">
-        <FridgeScanner />
+        <IFNRecipeApp />
       </main>
     </>
   );

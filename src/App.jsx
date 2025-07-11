@@ -6,6 +6,8 @@ import VoiceInput from "./components/VoiceInput";
 import DetectedItems from "./components/DetectedItems";
 import SettingsPanel from "./components/SettingsPanel";
 import FridgeScanner from "./components//FridgeScanner";
+import ItemCard from "./components/ItemCard";
+
 
 function App() {
   const [search, setSearch] = useState("");

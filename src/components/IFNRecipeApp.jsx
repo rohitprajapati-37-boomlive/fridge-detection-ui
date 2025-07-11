@@ -77,7 +77,7 @@ const ItemCard = ({
     : [];
 
   return (
-    <div className="bg-white shadow-xl rounded-3xl overflow-hidden mb-8 max-w-4xl mx-auto border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
+    <div className="card-rk-wth-65  bg-white shadow-xl rounded-3xl overflow-hidden mb-8 max-w-4xl mx-auto border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
       {/* Compact Card View (when !isExpanded) */}
       {!isExpanded && (
         <div className="flex gap-6 p-6">
@@ -251,14 +251,14 @@ const ItemCard = ({
               {/* MODIFY THIS OVERLAY: */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
               <div className="absolute bottom-6 left-6 text-white  p-3 rounded-xl border-2 transition-all duration-200 bg-red-50 border-red-200 text-red-800 shadow-md ">
-                <h2 
-  className="text-3xl font-bold mb-2 drop-shadow-lg"
-  style={{
-    color: 'rgb(153 27 27 / var(--tw-text-opacity, 1))'
-  }}
->
-  {recipeName}
-</h2>
+                <h2
+                  className="text-3xl font-bold mb-2 drop-shadow-lg"
+                  style={{
+                    color: "rgb(153 27 27 / var(--tw-text-opacity, 1))",
+                  }}
+                >
+                  {recipeName}
+                </h2>
                 <div className="flex items-center gap-4 text-sm drop-shadow-md">
                   <span className="flex items-center gap-1 bg-black/30 px-2 py-1 rounded-full backdrop-blur-sm">
                     <ChefHat className="w-4 h-4" />

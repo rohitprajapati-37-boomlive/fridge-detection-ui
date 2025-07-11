@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.2f5f6793.css",
+    "main.js": "/static/js/main.267623a3.js",
+    "static/js/453.f908b880.chunk.js": "/static/js/453.f908b880.chunk.js",
+    "static/media/ifn-logo-vase.png": "/static/media/ifn-logo-vase.cec57103e663138211e7.png",
+    "index.html": "/index.html",
+    "main.2f5f6793.css.map": "/static/css/main.2f5f6793.css.map",
+    "main.267623a3.js.map": "/static/js/main.267623a3.js.map",
+    "453.f908b880.chunk.js.map": "/static/js/453.f908b880.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2f5f6793.css",
+    "static/js/main.267623a3.js"
+  ]
+}

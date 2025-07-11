@@ -527,33 +527,31 @@ const IFNRecipeApp = () => {
   };
 
   const [availableIngredients, setAvailableIngredients] = useState([
-  { id: "rice", name: "Rice", emoji: "🍚" },
-  { id: "chicken", name: "Chicken", emoji: "🍗" },
-  { id: "tomatoes", name: "Tomatoes", emoji: "🍅" },
-  { id: "onions", name: "Onions", emoji: "🧅" },
-  { id: "potatoes", name: "Potatoes", emoji: "🥔" },
-  { id: "lentils", name: "Lentils", emoji: "🫘" },
-  { id: "paneer", name: "Paneer", emoji: "🧀" },
-  { id: "spinach", name: "Spinach", emoji: "🥬" },
-  { id: "carrots", name: "Carrots", emoji: "🥕" },
-  { id: "garlic", name: "Garlic", emoji: "🧄" },
-]);
+    { id: "rice", name: "Rice", emoji: "🍚" },
+    { id: "chicken", name: "Chicken", emoji: "🍗" },
+    { id: "tomatoes", name: "Tomatoes", emoji: "🍅" },
+    { id: "onions", name: "Onions", emoji: "🧅" },
+    { id: "potatoes", name: "Potatoes", emoji: "🥔" },
+    { id: "lentils", name: "Lentils", emoji: "🫘" },
+    { id: "paneer", name: "Paneer", emoji: "🧀" },
+    { id: "spinach", name: "Spinach", emoji: "🥬" },
+    { id: "carrots", name: "Carrots", emoji: "🥕" },
+    { id: "garlic", name: "Garlic", emoji: "🧄" },
+  ]);
 
+  const addToAvailableIngredients = (ingredientName) => {
+    const id = ingredientName.toLowerCase().replace(/\s+/g, "-");
+    const exists = availableIngredients.find((item) => item.id === id);
 
-const addToAvailableIngredients = (ingredientName) => {
-  const id = ingredientName.toLowerCase().replace(/\s+/g, "-");
-  const exists = availableIngredients.find(item => item.id === id);
-  
-  if (!exists) {
-    const newIngredient = {
-      id: id,
-      name: ingredientName,
-      emoji: "🥄" // default emoji
-    };
-    setAvailableIngredients(prev => [...prev, newIngredient]);
-  }
-};
-
+    if (!exists) {
+      const newIngredient = {
+        id: id,
+        name: ingredientName,
+        emoji: "🥄", // default emoji
+      };
+      setAvailableIngredients((prev) => [...prev, newIngredient]);
+    }
+  };
 
   const toggleIngredient = (id) => {
     setSelectedIngredients((prev) =>
@@ -561,20 +559,20 @@ const addToAvailableIngredients = (ingredientName) => {
     );
   };
 
-const addCustomIngredient = () => {
-  const trimmed = customIngredient.trim();
-  if (trimmed) {
-    // First add to available ingredients
-    addToAvailableIngredients(trimmed);
-    
-    // Then add to selected
-    const id = trimmed.toLowerCase().replace(/\s+/g, "-");
-    if (!selectedIngredients.includes(id)) {
-      setSelectedIngredients((prev) => [...prev, id]);
+  const addCustomIngredient = () => {
+    const trimmed = customIngredient.trim();
+    if (trimmed) {
+      // First add to available ingredients
+      addToAvailableIngredients(trimmed);
+
+      // Then add to selected
+      const id = trimmed.toLowerCase().replace(/\s+/g, "-");
+      if (!selectedIngredients.includes(id)) {
+        setSelectedIngredients((prev) => [...prev, id]);
+      }
     }
-  }
-  setCustomIngredient("");
-};
+    setCustomIngredient("");
+  };
 
   const handleVoiceResult = (transcript) => {
     if (transcript) {
@@ -667,6 +665,7 @@ const addCustomIngredient = () => {
     const found = availableIngredients.find((i) => i.id === id);
     return found ? found.name : id.charAt(0).toUpperCase() + id.slice(1);
   };
+  
 
   const simulateImageDetection = () => {
     setAnalyzing(true);
@@ -800,37 +799,51 @@ const addCustomIngredient = () => {
               Choose Your Ingredients
             </h3>
 
-<div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-  {availableIngredients.map((ingredient) => (
-    <div key={ingredient.id} className="relative group">
-      <button
-        onClick={() => toggleIngredient(ingredient.id)}
-        className={`w-full text-center transition-all duration-200 transform hover:scale-105 ${
-          selectedIngredients.includes(ingredient.id)
-            ? "bg-red-50 border-red-400 shadow-lg btn-txt-itm-rk"
-            : "btn-txt-itm-rk border-gray-200 hover:border-gray-300 hover:shadow-md"
-        }`}
-      >
-        <div className="text-3xl mb-2">{ingredient.emoji}</div>
-        <div className="text-sm font-medium">{ingredient.name}</div>
-      </button>
-      
-      {/* Remove button - only show for custom ingredients */}
-      {!["rice", "chicken", "tomatoes", "onions", "potatoes", "lentils", "paneer", "spinach", "carrots", "garlic"].includes(ingredient.id) && (
-        <button
-          onClick={() => {
-            setAvailableIngredients(prev => prev.filter(item => item.id !== ingredient.id));
-            setSelectedIngredients(prev => prev.filter(id => id !== ingredient.id));
-          }}
-          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-        >
-          ×
-        </button>
-      )}
-    </div>
-  ))}
-</div>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+              {availableIngredients.map((ingredient) => (
+                <div key={ingredient.id} className="relative group">
+                  <button
+                    onClick={() => toggleIngredient(ingredient.id)}
+                    className={`w-full text-center transition-all duration-200 transform hover:scale-105 ${
+                      selectedIngredients.includes(ingredient.id)
+                        ? "bg-red-50 border-red-400 shadow-lg btn-txt-itm-rk"
+                        : "btn-txt-itm-rk border-gray-200 hover:border-gray-300 hover:shadow-md"
+                    }`}
+                  >
+                    <div className="text-3xl mb-2">{ingredient.emoji}</div>
+                    <div className="text-sm font-medium">{ingredient.name}</div>
+                  </button>
 
+                  {/* Remove button - only show for custom ingredients */}
+                  {![
+                    "rice",
+                    "chicken",
+                    "tomatoes",
+                    "onions",
+                    "potatoes",
+                    "lentils",
+                    "paneer",
+                    "spinach",
+                    "carrots",
+                    "garlic",
+                  ].includes(ingredient.id) && (
+                    <button
+                      onClick={() => {
+                        setAvailableIngredients((prev) =>
+                          prev.filter((item) => item.id !== ingredient.id)
+                        );
+                        setSelectedIngredients((prev) =>
+                          prev.filter((id) => id !== ingredient.id)
+                        );
+                      }}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
 
             {selectedIngredients.length > 0 && (
               <div className="mb-6">

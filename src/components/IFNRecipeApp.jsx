@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 // import { Camera, X, Search, ArrowLeft, ChefHat, Clock, Users, Star } from "lucide-react";
 import {
   Camera,
@@ -16,8 +16,14 @@ import {
 import "../Css/FridgeScanner.css";
 
 // ItemCard Component
-const ItemCard = ({ recipe, index = 0, selectedIngredients = [] }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+const ItemCard = ({
+  recipe,
+  index = 0,
+  selectedIngredients = [],
+  isExpanded,
+  onToggleExpand,
+}) => {
+  //   const [isExpanded, setIsExpanded] = useState(false);
   const [showAllIngredients, setShowAllIngredients] = useState(false); // ADD THIS LINE
   const recipeName =
     recipe["Dish Name"] ||
@@ -71,7 +77,7 @@ const ItemCard = ({ recipe, index = 0, selectedIngredients = [] }) => {
     : [];
 
   return (
-    <div className="bg-white shadow-xl rounded-3xl overflow-hidden mb-8 max-w-4xl mx-auto border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
+    <div className="card-rk-wth-65  bg-white shadow-xl rounded-3xl overflow-hidden mb-8 max-w-4xl mx-auto border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
       {/* Compact Card View (when !isExpanded) */}
       {!isExpanded && (
         <div className="flex gap-6 p-6">
@@ -211,7 +217,7 @@ const ItemCard = ({ recipe, index = 0, selectedIngredients = [] }) => {
 
             {/* Expand Button */}
             <button
-              onClick={() => setIsExpanded(true)}
+              onClick={() => onToggleExpand(true)}
               className="bg-red-500 text-white px-6 py-2 rounded-xl hover:bg-red-600 transition-colors"
             >
               View Full Recipe
@@ -226,7 +232,7 @@ const ItemCard = ({ recipe, index = 0, selectedIngredients = [] }) => {
           {/* Collapse Button */}
           <div className="p-4 border-b">
             <button
-              onClick={() => setIsExpanded(false)}
+              onClick={() => onToggleExpand(false)}
               className="flex items-center gap-2 text-gray-600 hover:text-gray-800"
             >
               <ChevronUp className="w-5 h-5" />
@@ -242,20 +248,35 @@ const ItemCard = ({ recipe, index = 0, selectedIngredients = [] }) => {
                 alt={recipeName}
                 className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              <div className="absolute bottom-6 left-6 text-white">
-                <h2 className="text-3xl font-bold mb-2">{recipeName}</h2>
-                <div className="flex items-center gap-4 text-sm">
-                  <span className="flex items-center gap-1">
+              {/* MODIFY THIS OVERLAY: */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
+              <div className="absolute bottom-6 left-6 text-white  p-3 rounded-xl border-2 transition-all duration-200 bg-red-50 border-red-200 text-red-800 shadow-md ">
+                <h2
+                  className="text-3xl font-bold mb-2 drop-shadow-lg"
+                  style={{
+                    color: "rgb(153 27 27 / var(--tw-text-opacity, 1))",
+                  }}
+                >
+                  {recipeName}
+                </h2>
+                <div className="flex items-center gap-4 text-sm drop-shadow-md">
+                  <span className="flex items-center gap-1 bg-black/30 px-2 py-1 rounded-full backdrop-blur-sm">
                     <ChefHat className="w-4 h-4" />
                     Indian Cuisine
                   </span>
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1 bg-black/30 px-2 py-1 rounded-full backdrop-blur-sm">
                     <Clock className="w-4 h-4" />
-                    30-45 min
+                    {recipe["Cook Time"] ||
+                      recipe.cook_time ||
+                      recipe.cooking_time ||
+                      "30-45 min"}
                   </span>
-                  <span className="flex items-center gap-1">
-                    <Users className="w-4 h-4" />4 servings
+                  <span className="flex items-center gap-1 bg-black/30 px-2 py-1 rounded-full backdrop-blur-sm">
+                    <Users className="w-4 h-4" />
+                    {recipe["Servings"] ||
+                      recipe.servings ||
+                      recipe.serves ||
+                      "4 servings"}
                   </span>
                 </div>
               </div>
@@ -475,6 +496,9 @@ const VoiceInput = ({ onResult }) => {
 
 const IFNRecipeApp = () => {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const [fetchingRecipes, setFetchingRecipes] = useState(false);
+  const [expandedRecipe, setExpandedRecipe] = useState(null);
+  const recipeSectionRef = useRef(null);
   const [showRecipes, setShowRecipes] = useState(false);
   const [customIngredient, setCustomIngredient] = useState("");
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
@@ -487,6 +511,7 @@ const IFNRecipeApp = () => {
 
   const fetchRecipes = async (ingredientsList) => {
     try {
+      setFetchingRecipes(true);
       setLoading(true);
       setError(null);
 
@@ -523,6 +548,7 @@ const IFNRecipeApp = () => {
       setRecipeDatabase([]);
     } finally {
       setLoading(false);
+      setFetchingRecipes(false); // YE LINE ADD KAREIN
     }
   };
 
@@ -665,7 +691,6 @@ const IFNRecipeApp = () => {
     const found = availableIngredients.find((i) => i.id === id);
     return found ? found.name : id.charAt(0).toUpperCase() + id.slice(1);
   };
-  
 
   const simulateImageDetection = () => {
     setAnalyzing(true);
@@ -698,8 +723,17 @@ const IFNRecipeApp = () => {
       return;
     }
 
+    setFetchingRecipes(true); // YE LINE ADD KAREIN
     await fetchRecipes(selectedIngredients);
     setShowRecipes(true);
+
+    // SCROLL KE LIYE YE ADD KAREIN:
+    setTimeout(() => {
+      recipeSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 100);
   };
 
   return (
@@ -892,22 +926,65 @@ const IFNRecipeApp = () => {
 
             <button
               onClick={handleFindRecipes}
-              disabled={selectedIngredients.length === 0}
+              disabled={selectedIngredients.length === 0 || fetchingRecipes} // YE CHANGE KAREIN
               className={`w-full p-4 text-white rounded-xl text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${
-                selectedIngredients.length
+                selectedIngredients.length && !fetchingRecipes // YE CHANGE KAREIN
                   ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
                   : "bg-gray-300 cursor-not-allowed"
               }`}
             >
-              <Search className="inline mr-2 w-6 h-6" />
-              Find Perfect Recipes for Me! ({selectedIngredients.length}{" "}
-              ingredients)
+              {fetchingRecipes ? ( // YE PURA SECTION ADD KAREIN
+                <div className="flex items-center justify-center gap-3">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                  <span>Finding Perfect Recipes...</span>
+                </div>
+              ) : (
+                <>
+                  <Search className="inline mr-2 w-6 h-6" />
+                  Find Perfect Recipes for Me! ({
+                    selectedIngredients.length
+                  }{" "}
+                  ingredients)
+                </>
+              )}
             </button>
           </div>
         </div>
+
+        {/* pura page loading show  */}
+
+        {fetchingRecipes && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-2xl p-8 max-w-md mx-auto text-center shadow-2xl">
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-red-500 border-t-transparent mx-auto mb-4"></div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                🔍 Finding Perfect Recipes
+              </h3>
+              <p className="text-gray-600">
+                Searching through our database for recipes that match your
+                ingredients...
+              </p>
+              <div className="mt-4 flex justify-center gap-1">
+                <div className="w-2 h-2 bg-red-500 rounded-full animate-bounce"></div>
+                <div
+                  className="w-2 h-2 bg-red-500 rounded-full animate-bounce"
+                  style={{ animationDelay: "0.1s" }}
+                ></div>
+                <div
+                  className="w-2 h-2 bg-red-500 rounded-full animate-bounce"
+                  style={{ animationDelay: "0.2s" }}
+                ></div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* RECIPE RESULTS SECTION - SAME PAGE */}
         {showRecipes && (
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 mt-8">
+          <div
+            ref={recipeSectionRef} // YE LINE ADD KAREIN
+            className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 mt-8"
+          >
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h2 className="text-4xl font-bold text-gray-800 mb-2">
@@ -979,6 +1056,10 @@ const IFNRecipeApp = () => {
                       recipe={recipe}
                       index={index}
                       selectedIngredients={selectedIngredients}
+                      isExpanded={expandedRecipe === index}
+                      onToggleExpand={(expand) =>
+                        setExpandedRecipe(expand ? index : null)
+                      }
                     />
                   ))
                 ) : (

@@ -192,7 +192,6 @@ const ItemCard = ({
                     "Indian Cuisine"}
                 </span>
               </div>
-
               {/* Share Button - FIXED */}
               <button
                 onClick={() => {
@@ -225,7 +224,6 @@ const ItemCard = ({
           </div>
         </div>
       )}
-
       {/* Expanded View (when isExpanded) */}
       {isExpanded && (
         <div>
@@ -239,7 +237,6 @@ const ItemCard = ({
               Collapse Recipe
             </button>
           </div>
-
           {/* Header with Image */}
           {thumbnail ? (
             <div className="relative h-72 overflow-hidden">

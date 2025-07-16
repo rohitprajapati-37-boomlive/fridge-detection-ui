@@ -41,12 +41,12 @@
         }
 
         h2 {
-            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-size: clamp(1.20rem, 3vw, 2rem);
             font-weight: 600;
         }
 
         h3 {
-            font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+            font-size: clamp(1.0rem, 2.5vw, 1.5rem);
             font-weight: 600;
         }
 
@@ -71,7 +71,7 @@
         }
 
         .hero h1 {
-            font-size: clamp(2.25rem, 5vw, 3rem);
+            font-size: clamp(1.50rem, 5vw, 3rem);
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 24px;
@@ -79,21 +79,29 @@
         }
 
         .hero p {
-            font-size: 1.125rem;
+            font-size: 1.0rem;
             color: #666;
             margin-bottom: 40px;
             line-height: 1.6;
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            padding: 0 1rem;
         }
 
     /* Main Content */
         .main-section {
             padding: 2.5rem 0;
         }
-
-
+/* .ktn-recp-ingdnt h2.text-5xl.font-bold.text-gray-800.mb-4 {
+    font-size: clamp(1.50rem, 5vw, 2.5rem);
+} */
+.ktn-recp-ingdnt p.text-gray-600.text-xl {
+    font-size: 1.0rem;
+    color: #666;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
 /* Ingredient Panel */
 .ingredient-panel {
     max-width: 72.5rem;
@@ -105,7 +113,13 @@
     margin-bottom: 40px;
 }
 
+/* Mobile view: stack vertically */
+@media (max-width: 600px) {
 
+  .p-8 {
+    padding: 2rem 0.8rem;
+}
+}
 
 
 

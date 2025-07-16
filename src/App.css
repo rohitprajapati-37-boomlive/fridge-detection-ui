@@ -41,11 +41,15 @@
         }
 
         h2 {
-            font-size: clamp(1.20rem, 3vw, 2rem);
+            font-size: clamp(1.35rem, 3vw, 2rem);
             font-weight: 600;
         }
 
         h3 {
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            font-weight: 600;
+        }
+                h4 {
             font-size: clamp(1.0rem, 2.5vw, 1.5rem);
             font-weight: 600;
         }
@@ -93,9 +97,9 @@
         .main-section {
             padding: 2.5rem 0;
         }
-/* .ktn-recp-ingdnt h2.text-5xl.font-bold.text-gray-800.mb-4 {
-    font-size: clamp(1.50rem, 5vw, 2.5rem);
-} */
+.ktn-recp-ingdnt h2.text-5xl.font-bold.text-gray-800.mb-4 {
+    font-size: clamp(1.25rem, 5vw, 2.5rem);
+}
 .ktn-recp-ingdnt p.text-gray-600.text-xl {
     font-size: 1.0rem;
     color: #666;

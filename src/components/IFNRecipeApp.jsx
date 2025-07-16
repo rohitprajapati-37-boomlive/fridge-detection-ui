@@ -62,8 +62,9 @@ const ItemCard = ({
 
     return (
         <div className="card-rk-wth-65 bg-white shadow-xl rounded-3xl overflow-hidden mb-8 max-w-4xl mx-auto border border-gray-100 hover:shadow-2xl transition-shadow duration-300 w-full">
-            <div className="flex flex-col md:flex-row gap-6 p-6">
-                <div className="w-48 h-32 flex-shrink-0">
+            <div className="flex flex-col md:flex-row gap-4 sm:gap-6 p-4 sm:p-6">
+                {/* Image container - Fixed mobile size */}
+                <div className="w-full md:w-48 h-48 md:h-32 flex-shrink-0">
                     {thumbnail ? (
                         <img
                             src={thumbnail}
@@ -76,11 +77,12 @@ const ItemCard = ({
                         </div>
                     )}
                 </div>
+                {/* Content container - Responsive text */}
                 <div className="flex-1">
-                    <h2 className="text-2xl font-bold mb-2 text-gray-800">
+                    <h2 className="text-xl sm:text-2xl font-bold mb-2 text-gray-800">
                         {recipeName}
                     </h2>
-                    <p className="text-gray-600 mb-4 line-clamp-2">
+                    <p className="text-sm sm:text-base text-gray-600 mb-4 line-clamp-2">
                         {story
                             ? story.replace(/<[^>]*>/g, "").trim()
                             : "Delicious Indian recipe perfect for your selected ingredients"}
@@ -430,25 +432,17 @@ const IFNRecipeApp = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br via-red-50">
-            <div className="p-6 max-w-6xl mx-auto">
-                {/* INGREDIENTS SELECTION SECTION */}
-                <div className="ktn-recp-ingdnt bg-white rounded-2xl shadow-xl p-8 border border-gray-100 mb-8">
-                    <div className="text-center mb-12">
-                        <h2 className="text-5xl font-bold text-gray-800 mb-4">
-                            🥘 Your Kitchen, Your Recipes
-                        </h2>
-                        <p className="text-gray-600 text-xl">
-                            Tell us what you have in your kitchen, and we'll find perfect
-                            Indian recipes for you.
-                        </p>
-                    </div>
+            {/* Adjust main container padding */}
+            <div className="px-4 sm:px-6 max-w-6xl mx-auto">
+                <div className="ktn-recp-ingdnt bg-white rounded-2xl shadow-xl p-4 sm:p-8 border border-gray-100 mb-8">
+                    {/* ...existing header code... */}
 
-                    {/* Main Grid Container */}
-                    <div className="grid md:grid-cols-2 gap-8">
-                        {/* Left Column - Upload & Voice Input */}
-                        <div className="space-y-8">
-                            {/* Upload Section */}
-                            <div className="row-bord-dec-rk p-8 border border-gray-100 rounded-xl">
+                    {/* Adjust grid container */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                        {/* First column */}
+                        <div className="space-y-4 md:space-y-8">
+                            {/* Upload section */}
+                            <div className="row-bord-dec-rk p-4 sm:p-8 border border-gray-100 rounded-xl">
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -524,29 +518,31 @@ const IFNRecipeApp = () => {
                             </div> */}
                         </div>
 
-                        {/* Right Column - Ingredients Selection */}
-                        <div className="bg-white p-8 border border-gray-100 rounded-xl">
+                        {/* Second column */}
+                        <div className="bg-white p-4 sm:p-8 border border-gray-100 rounded-xl">
                             <h3 className="font-bold text-gray-800 mb-6 text-center">
                                 Choose Your Ingredients
                             </h3>
 
-                            {/* Ingredients Grid - More compact version */}
-                            <div className="grid grid-cols-3 md:grid-cols-4 gap-2 mb-6">
+                            {/* Ingredients Grid - Fixed mobile overflow */}
+                            <div className="grid grid-cols-3 md:grid-cols-4 gap-1 sm:gap-2 mb-6">
                                 {availableIngredients.map((ingredient) => (
-                                    <div key={ingredient.id} className="relative group">
+                                    <div key={ingredient.id} className="relative group w-full">
                                         <button
                                             onClick={() => toggleIngredient(ingredient.id)}
-                                            className={`w-full text-center p-1.5 transition-all duration-200 transform hover:scale-105 ${
+                                            className={`w-full text-center p-1 sm:p-1.5 transition-all duration-200 transform hover:scale-105 ${
                                                 selectedIngredients.includes(ingredient.id)
                                                     ? "bg-red-50 border-red-400 shadow-sm btn-txt-itm-rk"
                                                     : "btn-txt-itm-rk border-gray-200 hover:border-gray-300 hover:shadow-sm"
                                             }`}
                                         >
-                                            <div className="text-lg mb-0.5">{ingredient.emoji}</div>
-                                            <div className="text-[13px] font-medium">{ingredient.name}</div>
+                                            <div className="text-base sm:text-lg mb-0.5">{ingredient.emoji}</div>
+                                            <div className="text-[10px] sm:text-[13px] font-medium truncate px-1">
+                                                {ingredient.name}
+                                            </div>
                                         </button>
 
-                                        {/* Remove button - only show for custom ingredients */}
+                                        {/* Remove button - Adjusted positioning */}
                                         {![
                                             "rice",
                                             "chicken",
@@ -559,20 +555,20 @@ const IFNRecipeApp = () => {
                                             "carrots",
                                             "garlic",
                                         ].includes(ingredient.id) && (
-                                                <button
-                                                    onClick={() => {
-                                                        setAvailableIngredients((prev) =>
-                                                            prev.filter((item) => item.id !== ingredient.id)
-                                                        );
-                                                        setSelectedIngredients((prev) =>
-                                                            prev.filter((id) => id !== ingredient.id)
-                                                        );
-                                                    }}
-                                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                                                >
-                                                    ×
-                                                </button>
-                                            )}
+                                            <button
+                                                onClick={() => {
+                                                    setAvailableIngredients((prev) =>
+                                                        prev.filter((item) => item.id !== ingredient.id)
+                                                    );
+                                                    setSelectedIngredients((prev) =>
+                                                        prev.filter((id) => id !== ingredient.id)
+                                                    );
+                                                }}
+                                                className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-red-500 text-white rounded-full w-4 h-4 sm:w-6 sm:h-6 text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                                            >
+                                                ×
+                                            </button>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -606,20 +602,20 @@ const IFNRecipeApp = () => {
                                 </div>
                             )}
 
-                            {/* Custom Ingredient Input */}
+                            {/* Custom Ingredient Input - Smaller button */}
                             <div className="mt-6">
-                                <div className="flex gap-3">
+                                <div className="flex gap-2">
                                     <input
                                         type="text"
                                         placeholder="Add custom ingredient..."
                                         value={customIngredient}
                                         onChange={(e) => setCustomIngredient(e.target.value)}
                                         onKeyDown={(e) => e.key === "Enter" && addCustomIngredient()}
-                                        className="border-2 border-gray-200 p-3 flex-1 rounded-xl focus:border-red-500 focus:outline-none transition-colors"
+                                        className="border-2 border-gray-200 p-2 sm:p-3 flex-1 rounded-xl focus:border-red-500 focus:outline-none transition-colors text-sm"
                                     />
                                     <button
                                         onClick={addCustomIngredient}
-                                        className="bg-red-500 text-white px-6 py-3 rounded-xl hover:bg-red-600 transition-colors shadow-md"
+                                        className="bg-red-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:bg-red-600 transition-colors shadow-md text-sm whitespace-nowrap"
                                     >
                                         Add
                                     </button>
@@ -628,27 +624,29 @@ const IFNRecipeApp = () => {
                         </div>
                     </div>
 
-                    {/* Find Recipes Button - Full Width */}
+                    {/* Find Recipes Button - Responsive text */}
                     <div className="mt-8">
                         <button
                             onClick={handleFindRecipes}
                             disabled={selectedIngredients.length === 0 || fetchingRecipes}
-                            className={`w-full p-4 text-white rounded-xl text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${
+                            className={`w-full p-3 sm:p-4 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base ${
                                 selectedIngredients.length && !fetchingRecipes
                                     ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
                                     : "bg-gray-300 cursor-not-allowed"
                             }`}
                         >
                             {fetchingRecipes ? (
-                                <div className="flex items-center justify-center gap-3">
-                                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
-                                    <span>Finding Perfect Recipes...</span>
+                                <div className="flex items-center justify-center gap-2">
+                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                    <span>Finding Recipes...</span>
                                 </div>
                             ) : (
-                                <>
-                                    <Search className="inline mr-2 w-6 h-6" />
-                                    Find Perfect Recipes for Me! ({selectedIngredients.length} ingredients)
-                                </>
+                                <div className="flex items-center justify-center gap-2">
+                                    <Search className="w-5 h-5" />
+                                    <span className="hidden sm:inline">Find Perfect Recipes for Me!</span>
+                                    <span className="sm:hidden">Find Recipes</span>
+                                    <span>({selectedIngredients.length})</span>
+                                </div>
                             )}
                         </button>
                     </div>
@@ -688,30 +686,29 @@ const IFNRecipeApp = () => {
                         ref={recipeSectionRef}
                         className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 mt-8"
                     >
-                        <div className="flex items-center justify-between mb-8">
+                        {/* Recipe Results Header */}
+                        <div className="flex items-center justify-between mb-6">
                             <div>
-                                <h2 className="text-4xl font-bold text-gray-800 mb-2">
+                                <h2 className=" sm:text-2xl font-bold text-gray-800 mb-1">
                                     🍽️ Recipe Suggestions
                                 </h2>
-                                <p className="text-gray-600 text-lg">
-                                    Found {getSuggestedRecipes().length} delicious recipes for your ingredients
+                                <p className=" sm:text-sm text-gray-600">
+                                    Found {getSuggestedRecipes().length} delicious recipes
                                 </p>
                             </div>
                             <button
                                 onClick={() => setShowRecipes(false)}
-                                className="inline-flex items-center gap-2 text-red-600 hover:text-red-700 font-medium bg-red-50 px-4 py-2 rounded-xl hover:bg-red-100 transition-all duration-200"
+                                className="bg-gray-100 hover:bg-gray-200 p-2 rounded-full transition-all duration-200"
+                                title="Clear Results"
                             >
-                                <X className="w-5 h-5" />
-                                Clear Results
+                                <X className="w-5 h-5 text-gray-600" />
                             </button>
                         </div>
 
-                        {/* Recipe Cards */}
+                        {/* Recipe Cards with improved mobile view */}
                         <div className="space-y-6">
                             {getDisplayRecipes().slice(0, visibleCount).map((recipe, index) => {
-                                // Videos from Similar YouTube Videos
                                 let videos = recipe["Similar YouTube Videos"] || [];
-                                // If no videos, but YouTube Link exists, add it as a video object
                                 if ((!videos || videos.length === 0) && recipe["YouTube Link"]) {
                                     videos = [{
                                         title: recipe["Dish Name"] || recipe.name || "Related Video",
@@ -739,13 +736,13 @@ const IFNRecipeApp = () => {
                                                         href={video.video_url || video.url || video.link || video.youtube_url || ""}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="border border-gray-200 rounded-lg p-2 bg-white hover:bg-red-50 transition-colors w-full max-w-xs mx-auto"
+                                                        className="border border-gray-200 rounded-lg p-2 bg-white hover:bg-red-50 transition-colors w-full"
                                                     >
                                                         {video.thumbnail_url ? (
                                                             <img
                                                                 src={video.thumbnail_url}
                                                                 alt={video.title || "Video"}
-                                                                className="w-full h-24 object-cover rounded"
+                                                                className="w-full h-32 sm:h-24 object-cover rounded"
                                                             />
                                                         ) : null}
                                                         <div className="font-semibold text-xs mt-2 line-clamp-2">{video.title || "Video"}</div>
@@ -758,14 +755,14 @@ const IFNRecipeApp = () => {
                             })}
                         </div>
 
-                        {/* View More Button */}
+                        {/* View More Button - Matching theme */}
                         {getDisplayRecipes().length > visibleCount && (
                             <div className="text-center mt-8">
                                 <button
                                     onClick={() => setVisibleCount((prev) => prev + 4)}
-                                    className="bg-green-500 text-white px-8 py-3 rounded-xl hover:bg-green-600 transition-colors text-lg font-semibold"
+                                    className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-3 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-base sm:text-lg font-semibold"
                                 >
-                                    View More
+                                    View More Recipes
                                 </button>
                             </div>
                         )}

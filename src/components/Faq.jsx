@@ -11,7 +11,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
         onClick={onClick}
         aria-expanded={isOpen}
       >
-        <span className="text-lg font-semibold">{question}</span>
+        <span className=" font-semibold">{question}</span>
         <Plus 
           className={`w-5 h-5 transition-transform ${
             isOpen ? 'rotate-45' : ''
@@ -63,10 +63,10 @@ const Faq = () => {
     <div className="px-4 sm:px-6 max-w-6xl mx-auto py-16 bg-white border-t border-gray-100">
       <div className="ktn-recp-ingdnt bg-white rounded-2xl shadow-xl p-4 sm:p-8 border border-gray-100 mb-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
+          <h2 className=" sm:text-4xl font-bold text-gray-800 mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-lg text-gray-600">
+          <p className=" text-gray-600">
             Everything you need to know about our recipe finder tool
           </p>
         </div>

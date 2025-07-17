@@ -6,7 +6,7 @@ import { ExternalLink } from 'lucide-react'; // Add this import
 export default function Navbar() {
   return (
     <header className="bg-white py-5 border-b border-gray-100 sticky top-0 z-50 shadow-sm">
-      <nav className="container mx-auto flex justify-between items-center px-4">
+      <nav className="max-w-6xl mx-auto   container mx-auto flex justify-between items-center px-4">
         <div className="flex items-center gap-3">
           <img src={logo} alt="India Food Network" className="h-[75px] w-auto" />
         </div>

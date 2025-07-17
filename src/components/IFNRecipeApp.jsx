@@ -438,7 +438,7 @@ const IFNRecipeApp = () => {
                     {/* ...existing header code... */}
 
                     {/* Adjust grid container */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                    <div className="items-center grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                         {/* First column */}
                         <div className="space-y-4 md:space-y-8">
                             {/* Upload section */}

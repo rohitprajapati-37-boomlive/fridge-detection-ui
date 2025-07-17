@@ -431,7 +431,7 @@ const IFNRecipeApp = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br via-red-50">
+        <div className="py-16 bg-gradient-to-br via-red-50">
             {/* Adjust main container padding */}
             <div className="px-4 sm:px-6 max-w-6xl mx-auto">
                 <div className="ktn-recp-ingdnt bg-white rounded-2xl shadow-xl p-4 sm:p-8 border border-gray-100 mb-8">

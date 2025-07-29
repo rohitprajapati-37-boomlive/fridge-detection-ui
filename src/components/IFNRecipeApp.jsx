@@ -523,7 +523,7 @@ const IFNRecipeApp = () => {
               Just enter what you have at home, and we’ll suggest authentic Indian recipes you can cook right now. Discover new flavors, reduce food waste, and bring India’s rich culinary heritage to life, one delicious dish at a time.
             </p>
                         <div className="text-sm text-gray-500 font-medium">
-                            Powered by <a href="https://www.indiafoodnetwork.in/" target="_blank" rel="noopener noreferrer">India Food Network</a>
+                            Powered by <a href="https://www.indiafoodnetwork.in/" target="_blank" rel="noopener noreferrer"   class="text-orange-700  hover:text-green-700 "   >India Food Network</a>
                         </div>
                     </div>
 

@@ -523,7 +523,7 @@ const IFNRecipeApp = () => {
               Just enter what you have at home, and we’ll suggest authentic Indian recipes you can cook right now. Discover new flavors, reduce food waste, and bring India’s rich culinary heritage to life, one delicious dish at a time.
             </p>
                         <div className="text-sm text-gray-500 font-medium">
-                            Powered by India Food Network AI
+                            Powered by <a href="https://www.indiafoodnetwork.in/" target="_blank" rel="noopener noreferrer">India Food Network</a>
                         </div>
                     </div>
 
@@ -604,67 +604,66 @@ const IFNRecipeApp = () => {
                         {activeMode === "photo" && (
                             <div>
                                 {/* Upload Fridge Photo Section */}
-                                <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center bg-gray-50 hover:bg-green-50 hover:border-green-400 transition-all duration-300 cursor-pointer mb-6">
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        id="fridge-photo"
-                                        className="hidden"
-                                        onChange={(e) => {
-                                            const file = e.target.files?.[0];
-                                            if (file) {
-                                                setUploadedImageUrl(URL.createObjectURL(file));
-                                                detectItemsFromImage(file);
-                                            }
-                                        }}
-                                    />
-                                    <label htmlFor="fridge-photo" className="cursor-pointer block">
-                                        <div className="flex flex-col items-center gap-4">
-                                            <button
-                                                type="button"
-                                                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
-                                            >
-                                                <Camera className="w-5 h-5" />
-                                                📷 Upload Fridge Photo
-                                            </button>
-                                            <span className="text-gray-600 text-sm">
-                                                or take a picture of your ingredients
-                                            </span>
-                                        </div>
-                                    </label>
-                                    {/* Image Preview & Detected Ingredients */}
-                                    {uploadedImageUrl && (
-                                        <div className="mt-6 relative inline-block">
-                                            <img
-                                                src={uploadedImageUrl}
-                                                alt="Uploaded ingredients"
-                                                className="max-h-64 rounded-xl shadow-lg mx-auto"
-                                            />
-                                            <div className="absolute inset-0 bg-black bg-opacity-30 rounded-xl flex flex-col justify-between p-4">
-                                                <button
-                                                    onClick={() => {
-                                                        setUploadedImageUrl('');
-                                                        setDetectedIngredients([]);
-                                                        setAnalyzing(false);
-                                                    }}
-                                                    className="self-end bg-white bg-opacity-90 hover:bg-red-500 hover:text-white text-gray-600 w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all duration-200"
-                                                >
-                                                    ×
-                                                </button>
-                                                {analyzing && (
-                                                    <div className="bg-green-600 bg-opacity-95 text-white px-4 py-2 rounded-lg text-center animate-pulse">
-                                                        🔍 Analyzing your ingredients...
-                                                    </div>
-                                                )}
-                                                {!analyzing && detectedIngredients.length > 0 && (
-                                                    <div className="bg-green-600 bg-opacity-95 text-white px-4 py-2 rounded-lg text-center">
-                                                        ✅ Found: {detectedIngredients.join(', ')}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
+                                <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center bg-gray-50 hover:bg-green-50 hover:border-green-400 transition-all duration-300 mb-6">
+    <input
+        type="file"
+        accept="image/*"
+        id="fridge-photo"
+        className="hidden"
+        onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+                setUploadedImageUrl(URL.createObjectURL(file));
+                detectItemsFromImage(file);
+            }
+        }}
+    />
+    <div className="flex flex-col items-center gap-4">
+        <button
+            type="button"
+            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 cursor-pointer"
+            onClick={() => document.getElementById('fridge-photo').click()}
+        >
+            <Camera className="w-5 h-5" />
+            Upload Fridge Photo
+        </button>
+        <span className="text-gray-600 text-sm">
+            or take a picture of your ingredients
+        </span>
+    </div>
+    {/* Image Preview & Detected Ingredients */}
+    {uploadedImageUrl && (
+        <div className="mt-6 relative inline-block">
+            <img
+                src={uploadedImageUrl}
+                alt="Uploaded ingredients"
+                className="max-h-64 rounded-xl shadow-lg mx-auto"
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-30 rounded-xl flex flex-col justify-between p-4">
+                <button
+                    onClick={() => {
+                        setUploadedImageUrl('');
+                        setDetectedIngredients([]);
+                        setAnalyzing(false);
+                    }}
+                    className="self-end bg-white bg-opacity-90 hover:bg-red-500 hover:text-white text-gray-600 w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all duration-200"
+                >
+                    ×
+                </button>
+                {analyzing && (
+                    <div className="bg-green-600 bg-opacity-95 text-white px-4 py-2 rounded-lg text-center animate-pulse">
+                        🔍 Analyzing your ingredients...
+                    </div>
+                )}
+                {!analyzing && detectedIngredients.length > 0 && (
+                    <div className="bg-green-600 bg-opacity-95 text-white px-4 py-2 rounded-lg text-center">
+                        ✅ Found: {detectedIngredients.join(', ')}
+                    </div>
+                )}
+            </div>
+        </div>
+    )}
+</div>
                             </div>
                         )}
 
@@ -682,22 +681,25 @@ const IFNRecipeApp = () => {
                                                 onKeyDown={(e) => e.key === "Enter" && handleUserQuery()}
                                                 className="w-full pl-4 pr-20 py-4 rounded-xl border-2 border-gray-200 focus:border-green-500 focus:outline-none text-base"
                                             />
-                                            {/* Voice Button */}
-                                            <button
-                                                onClick={handleVoiceInput}
-                                                className={`absolute right-12 top-1/2 -translate-y-1/2 text-gray-400 hover:text-green-500 transition-colors p-1 ${
-                                                    isListening ? "animate-pulse text-green-500" : ""
-                                                }`}
-                                            >
-                                                🎤
-                                            </button>
-                                            {/* Search Button */}
-                                            <button
-                                                onClick={handleUserQuery}
-                                                className="absolute right-2 top-1/2 -translate-y-1/2 bg-green-600 hover:bg-green-700 text-white rounded-lg w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200"
-                                            >
-                                                <Search className="w-5 h-5" />
-                                            </button>
+                                            {/* Voice Search and Search Buttons */}
+                                            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
+                                                <button
+                                                    onClick={handleVoiceInput}
+                                                    className={`bg-blue-600 hover:bg-blue-700 text-white rounded-lg w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200 ${
+                                                        isListening ? "animate-pulse" : ""
+                                                    }`}
+                                                    title="Voice Search"
+                                                >
+                                                    🎤
+                                                </button>
+                                                <button
+                                                    onClick={handleUserQuery}
+                                                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200"
+                                                    title="Search"
+                                                >
+                                                    <Search className="w-5 h-5" />
+                                                </button>
+                                            </div>
                                             {isListening && (
                                                 <span className="absolute right-20 top-1/2 -translate-y-1/2 text-green-500 text-xs animate-pulse font-medium">
                                                     Listening...

@@ -23,7 +23,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
           isOpen ? 'max-h-40' : 'max-h-0'
         }`}
       >
-        <p className="px-6 pb-4 text-gray-600">{answer}</p>
+        <p className="px-6 pb-4 mt-4 ">{answer}</p>
       </div>
     </div>
   );

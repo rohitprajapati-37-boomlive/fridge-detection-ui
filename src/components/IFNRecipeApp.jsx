@@ -651,7 +651,7 @@ const IFNRecipeApp = () => {
                     ×
                 </button>
                 {analyzing && (
-                    <div className="bg-green-600 bg-opacity-95 text-white px-4 py-2 rounded-lg text-center animate-pulse">
+                    <div className="bg-green-600 bg-opacity-95 text-white px-4 py-2 rounded-lg text-center z-index: 9 animate-pulse">
                         🔍 Analyzing your ingredients...
                     </div>
                 )}

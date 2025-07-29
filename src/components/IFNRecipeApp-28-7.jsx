@@ -168,7 +168,6 @@ const IFNRecipeApp = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [visibleCount, setVisibleCount] = useState(4); // Show 4 cards initially
-    const [activeMode, setActiveMode] = useState("photo"); // "photo" or "ai"
 
     const fetchRecipes = async (ingredientsList) => {
         try {
@@ -512,227 +511,247 @@ const IFNRecipeApp = () => {
             {/* Adjust main container padding */}
             <div className="px-4 sm:px-6 max-w-6xl mx-auto">
                 <div className="ktn-recp-ingdnt bg-white rounded-2xl shadow-xl p-4 sm:p-8 border border-gray-100 mb-8">
-                    {/* Header Section */}
-                    <div className="text-center p-8 bg-gradient-to-br from-orange-50 to-red-50">
-                          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-3">
-              🍛 What's in Your Fridge?
-            </h1>
-            <strong className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">Got food ingredients in your kitchen? Let’s turn them into magic!
-            </strong>
-            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
-              Just enter what you have at home, and we’ll suggest authentic Indian recipes you can cook right now. Discover new flavors, reduce food waste, and bring India’s rich culinary heritage to life, one delicious dish at a time.
-            </p>
-                        <div className="text-sm text-gray-500 font-medium">
-                            Powered by India Food Network AI
-                        </div>
-                    </div>
+                    {/* ...existing header code... */}
 
-                    {/* Mode Selection Cards */}
-                    <div className="p-8">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                            {/* Snap & Cook Option */}
-                            <div
-                                className={`relative cursor-pointer transition-all duration-300 transform hover:scale-105 ${
-                                    activeMode === "photo"
-                                        ? "ring-2 ring-orange-400 bg-orange-50"
-                                        : "hover:bg-gray-50"
-                                } border-2 rounded-xl p-6 text-center min-h-[200px] flex flex-col justify-center ${
-                                    activeMode === "photo" ? "border-orange-400" : "border-gray-200"
-                                }`}
-                                onClick={() => setActiveMode("photo")}
-                                tabIndex={0}
-                                role="button"
-                                aria-pressed={activeMode === "photo"}
-                            >
-                                {activeMode === "photo" && (
-                                    <div className="absolute top-3 right-3 w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                                        ✓
+                    {/* Adjust grid container */}
+                    <div className="items-center grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                        {/* First column */}
+                        <div className="space-y-4 md:space-y-8">
+                            {/* Upload section */}
+                            <div className="row-bord-dec-rk p-4 sm:p-8 border border-gray-100 rounded-xl">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    id="fridge-photo"
+                                    className="hidden"
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) {
+                                            setUploadedImageUrl(URL.createObjectURL(file));
+                                            detectItemsFromImage(file);
+                                        }
+                                    }}
+                                />
+
+                                <label htmlFor="fridge-photo" className="cursor-pointer block">
+                                    <div className="flex items-center bg-white rounded-full px-4 py-3 shadow w-full max-w-lg mx-auto">
+                                        <Camera className="mr-3 w-6 h-6 text-gray-400" />
+                                        <span className="text-gray-400 text-base flex-1 text-left">Upload Fridge Photo</span>
+                                    </div>
+                                    <p className="text-gray-500 text-sm text-center mt-2">
+                                        Take a picture of your ingredients for instant recognition
+                                    </p>
+                                </label>
+
+                                {uploadedImageUrl && (
+                                    <div className="mt-6">
+                                        <img
+                                            src={uploadedImageUrl}
+                                            alt="Uploaded"
+                                            className="max-h-64 mx-auto rounded-xl shadow-lg"
+                                        />
                                     </div>
                                 )}
-                                <div className="text-4xl mb-4">📱✨</div>
-                                <h3 className="text-xl font-bold text-gray-800 mb-3">Snap & Cook!</h3>
-                                <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-                                    Just take a photo of your fridge or pantry - our AI will instantly identify 
-                                    ingredients and suggest delicious recipes!
-                                </p>
-                                <div className="flex flex-wrap gap-2 justify-center">
-                                    <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold border border-orange-200">
-                                        ⚡ Instant detection
-                                    </span>
-                                    <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold border border-orange-200">
-                                        🎯 Smart suggestions
-                                    </span>
-                                </div>
-                            </div>
-                            {/* Chat with Chef AI Option */}
-                            <div
-                                className={`relative cursor-pointer transition-all duration-300 transform hover:scale-105 ${
-                                    activeMode === "ai"
-                                        ? "ring-2 ring-green-400 bg-green-50"
-                                        : "hover:bg-gray-50"
-                                } border-2 rounded-xl p-6 text-center min-h-[200px] flex flex-col justify-center ${
-                                    activeMode === "ai" ? "border-green-400" : "border-gray-200"
-                                }`}
-                                onClick={() => setActiveMode("ai")}
-                                tabIndex={0}
-                                role="button"
-                                aria-pressed={activeMode === "ai"}
-                            >
-                                {activeMode === "ai" && (
-                                    <div className="absolute top-3 right-3 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                                        ✓
-                                    </div>
-                                )}
-                                <div className="text-4xl mb-4">🤖💬</div>
-                                <h3 className="text-xl font-bold text-gray-800 mb-3">Chat with Chef AI</h3>
-                                <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-                                    Describe what you have or what you're craving - get personalized recipe 
-                                    recommendations!
-                                </p>
-                                <div className="flex flex-wrap gap-2 justify-center">
-                                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold border border-green-200">
-                                        💭 Natural language
-                                    </span>
-                                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold border border-green-200">
-                                        🎨 Personalized
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
 
-                        {/* Dynamic Content Based on Selected Mode */}
-                        {activeMode === "photo" && (
-                            <div>
-                                {/* Upload Fridge Photo Section */}
-                                <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center bg-gray-50 hover:bg-green-50 hover:border-green-400 transition-all duration-300 cursor-pointer mb-6">
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        id="fridge-photo"
-                                        className="hidden"
-                                        onChange={(e) => {
-                                            const file = e.target.files?.[0];
-                                            if (file) {
-                                                setUploadedImageUrl(URL.createObjectURL(file));
-                                                detectItemsFromImage(file);
-                                            }
-                                        }}
-                                    />
-                                    <label htmlFor="fridge-photo" className="cursor-pointer block">
-                                        <div className="flex flex-col items-center gap-4">
-                                            <button
-                                                type="button"
-                                                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
-                                            >
-                                                <Camera className="w-5 h-5" />
-                                                📷 Upload Fridge Photo
-                                            </button>
-                                            <span className="text-gray-600 text-sm">
-                                                or take a picture of your ingredients
-                                            </span>
+                                {analyzing && (
+                                    <div className="mt-4 p-4 bg-yellow-50 rounded-xl text-center">
+                                        <div className="animate-pulse text-yellow-600 font-medium">
+                                            🔍 Analyzing your ingredients...
                                         </div>
-                                    </label>
-                                    {/* Image Preview & Detected Ingredients */}
-                                    {uploadedImageUrl && (
-                                        <div className="mt-6 relative inline-block">
-                                            <img
-                                                src={uploadedImageUrl}
-                                                alt="Uploaded ingredients"
-                                                className="max-h-64 rounded-xl shadow-lg mx-auto"
+                                    </div>
+                                )}
+
+                                {detectedIngredients.length > 0 && !analyzing && (
+                                    <div className="mt-4 p-4 bg-green-50 rounded-xl text-center">
+                                        <div className="text-green-600 font-medium">
+                                            ✅ Detected: {detectedIngredients.join(", ")}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Voice Input Section - Commented out for now */}
+                            {/* <div className="row-bord-dec-rk p-8 border border-gray-100 rounded-xl">
+                                <div className="text-center">
+                                    <button
+                                        onClick={() => setListening(true)}
+                                        className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-4 px-6 rounded-xl inline-flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 mb-4"
+                                    >
+                                        🎤 Speak Ingredients
+                                    </button>
+                                    <p className="text-gray-500 text-sm">
+                                        Say what's in your fridge and we'll add it automatically
+                                    </p>
+                                </div>
+
+                                {listening && (
+                                    <div className="mt-6">
+                                        <VoiceInput onResult={handleVoiceResult} />
+                                    </div>
+                                )}
+                            </div> */}
+
+                            {/* User Query Section - Input, Search, Voice */}
+                            <div className="row-bord-dec-rk p-4 sm:p-8 border border-gray-100 rounded-xl mt-4">
+                                <div className="text-center">
+                                    <div className="flex items-center justify-center gap-2">
+                                        <div className="relative flex-1 max-w-lg">
+                                            <input
+                                                type="text"
+                                                placeholder="Search..."
+                                                value={userQuery}
+                                                onChange={e => setUserQuery(e.target.value)}
+                                                onKeyDown={e => e.key === "Enter" && handleUserQuery()}
+                                                className="w-full pl-5 pr-20 py-3 rounded-full border-0 shadow text-sm bg-white focus:outline-none"
+                                                style={{ boxShadow: "0 2px 8px #0001" }}
                                             />
-                                            <div className="absolute inset-0 bg-black bg-opacity-30 rounded-xl flex flex-col justify-between p-4">
-                                                <button
-                                                    onClick={() => {
-                                                        setUploadedImageUrl('');
-                                                        setDetectedIngredients([]);
-                                                        setAnalyzing(false);
-                                                    }}
-                                                    className="self-end bg-white bg-opacity-90 hover:bg-red-500 hover:text-white text-gray-600 w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all duration-200"
-                                                >
-                                                    ×
-                                                </button>
-                                                {analyzing && (
-                                                    <div className="bg-green-600 bg-opacity-95 text-white px-4 py-2 rounded-lg text-center animate-pulse">
-                                                        🔍 Analyzing your ingredients...
-                                                    </div>
-                                                )}
-                                                {!analyzing && detectedIngredients.length > 0 && (
-                                                    <div className="bg-green-600 bg-opacity-95 text-white px-4 py-2 rounded-lg text-center">
-                                                        ✅ Found: {detectedIngredients.join(', ')}
-                                                    </div>
-                                                )}
+                                            <button
+                                                onClick={handleVoiceInput}
+                                                className={`absolute right-12 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors ${isListening ? "animate-pulse" : ""}`}
+                                                style={{ background: "none", border: "none", padding: 0 }}
+                                                tabIndex={-1}
+                                            >
+                                                <span role="img" aria-label="mic">🎤</span>
+                                            </button>
+                                            <button
+                                                onClick={handleUserQuery}
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 bg-gray-900 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg transition-all"
+                                                style={{ minWidth: 32, minHeight: 32 }}
+                                            >
+                                                <Search className="w-4 h-4" />
+                                            </button>
+                                            {isListening && (
+                                                <span className="absolute right-20 top-1/2 -translate-y-1/2 text-red-500 text-xs animate-pulse">Listening...</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                    {/* Loading, found, error states ... */}
+                                    {queryLoading && (
+                                        <div className="mt-4 p-4 bg-yellow-50 rounded-xl text-center animate-pulse text-yellow-600 font-medium">
+                                            🔍 Searching your query...
+                                        </div>
+                                    )}
+                                    {userQuery && !queryLoading && !queryError && (
+                                        <div className="mt-4 p-4 bg-green-50 rounded-xl text-center">
+                                            <div className="text-green-600 font-medium">
+                                                ✅ Detected: {selectedIngredients.map(getIngredientName).join(", ")}
                                             </div>
+                                        </div>
+                                    )}
+                                    {queryError && (
+                                        <div className="mt-4 p-4 bg-red-50 rounded-xl text-center text-red-600 font-medium">
+                                            {queryError}
                                         </div>
                                     )}
                                 </div>
                             </div>
-                        )}
+                        </div>
 
-                        {activeMode === "ai" && (
-                            <div>
-                                {/* User Query Section - Input, Search, Voice */}
-                                <div className="bg-gray-50 rounded-xl p-6">
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <div className="relative flex-1">
-                                            <input
-                                                type="text"
-                                                placeholder="e.g. I have chicken, rice and tomatoes. What can I cook?"
-                                                value={userQuery}
-                                                onChange={(e) => setUserQuery(e.target.value)}
-                                                onKeyDown={(e) => e.key === "Enter" && handleUserQuery()}
-                                                className="w-full pl-4 pr-20 py-4 rounded-xl border-2 border-gray-200 focus:border-green-500 focus:outline-none text-base"
-                                            />
-                                            {/* Voice Button */}
-                                            <button
-                                                onClick={handleVoiceInput}
-                                                className={`absolute right-12 top-1/2 -translate-y-1/2 text-gray-400 hover:text-green-500 transition-colors p-1 ${
-                                                    isListening ? "animate-pulse text-green-500" : ""
+                        {/* Second column */}
+                        <div className="bg-white p-4 sm:p-8 border border-gray-100 rounded-xl">
+                            <h3 className="font-bold text-gray-800 mb-6 text-center">
+                                Choose Your Ingredients
+                            </h3>
+
+                            {/* Ingredients Grid - Fixed mobile overflow */}
+                            <div className="grid grid-cols-3 md:grid-cols-4 gap-1 sm:gap-2 mb-6">
+                                {availableIngredients.map((ingredient) => (
+                                    <div key={ingredient.id} className="relative group w-full">
+                                        <button
+                                            onClick={() => toggleIngredient(ingredient.id)}
+                                            className={`w-full text-center p-1 sm:p-1.5 transition-all duration-200 transform hover:scale-105 ${selectedIngredients.includes(ingredient.id)
+                                                ? "bg-red-50 border-red-400 shadow-sm btn-txt-itm-rk"
+                                                : "btn-txt-itm-rk border-gray-200 hover:border-gray-300 hover:shadow-sm"
                                                 }`}
-                                            >
-                                                🎤
-                                            </button>
-                                            {/* Search Button */}
-                                            <button
-                                                onClick={handleUserQuery}
-                                                className="absolute right-2 top-1/2 -translate-y-1/2 bg-green-600 hover:bg-green-700 text-white rounded-lg w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200"
-                                            >
-                                                <Search className="w-5 h-5" />
-                                            </button>
-                                            {isListening && (
-                                                <span className="absolute right-20 top-1/2 -translate-y-1/2 text-green-500 text-xs animate-pulse font-medium">
-                                                    Listening...
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
-                                    {/* Example Cards */}
-                                    <div>
-                                        <h4 className="font-semibold text-gray-700 mb-3">Try these examples:</h4>
-                                        <div className="space-y-2">
-                                            {[
-                                                'I have leftover rice and vegetables',
-                                                'I want something spicy with chicken',
-                                                'What curry can I make with paneer?',
-                                                'I need healthy recipe with lentils'
-                                            ].map((example, index) => (
-                                                <div
-                                                    key={index}
-                                                    onClick={() => setUserQuery(example)}
-                                                    className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-lg cursor-pointer hover:bg-green-50 hover:border-green-300 transition-all duration-200 group"
+                                        >
+                                            <div className="text-base sm:text-lg mb-0.5">{ingredient.emoji}</div>
+                                            <div className="text-[10px] sm:text-[13px] font-medium truncate px-1">
+                                                {ingredient.name}
+                                            </div>
+                                        </button>
+
+                                        {/* Remove button - Adjusted positioning */}
+                                        {![
+                                            "rice",
+                                            "chicken",
+                                            "tomatoes",
+                                            "onions",
+                                            "potatoes",
+                                            "lentils",
+                                            "paneer",
+                                            "spinach",
+                                            "carrots",
+                                            "garlic",
+                                        ].includes(ingredient.id) && (
+                                                <button
+                                                    onClick={() => {
+                                                        setAvailableIngredients((prev) =>
+                                                            prev.filter((item) => item.id !== ingredient.id)
+                                                        );
+                                                        setSelectedIngredients((prev) =>
+                                                            prev.filter((id) => id !== ingredient.id)
+                                                        );
+                                                    }}
+                                                    className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-red-500 text-white rounded-full w-4 h-4 sm:w-6 sm:h-6 text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
                                                 >
-                                                    <span className="text-gray-700 text-sm font-medium">
-                                                        "{example}"
-                                                    </span>
-                                                    <span className="text-gray-400 group-hover:text-green-500 group-hover:translate-x-1 transition-all duration-200">
-                                                        →
-                                                    </span>
-                                                </div>
-                                            ))}
-                                        </div>
+                                                    ×
+                                                </button>
+                                            )}
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Selected Ingredients - Smaller font size */}
+                            {selectedIngredients.length > 0 && (
+                                <div className="mt-6">
+                                    <h4 className="text-base font-semibold text-gray-800 mb-2">
+                                        Selected Ingredients:
+                                    </h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {selectedIngredients.map((id) => (
+                                            <span
+                                                key={id}
+                                                className="bg-red-500 text-white px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md text-sm"
+                                            >
+                                                {getIngredientName(id)}
+                                                <button
+                                                    onClick={() =>
+                                                        setSelectedIngredients((prev) =>
+                                                            prev.filter((i) => i !== id)
+                                                        )
+                                                    }
+                                                    className="hover:bg-red-600 rounded-full p-0.5 transition-colors"
+                                                >
+                                                    <X className="w-3.5 h-3.5" />
+                                                </button>
+                                            </span>
+                                        ))}
                                     </div>
                                 </div>
+                            )}
+
+                            {/* Custom Ingredient Input - Smaller button */}
+                            <div className="mt-6">
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Add custom ingredient..."
+                                        value={customIngredient}
+                                        onChange={(e) => setCustomIngredient(e.target.value)}
+                                        onKeyDown={(e) => e.key === "Enter" && addCustomIngredient()}
+                                        className="border-2 border-gray-200 p-2 sm:p-3 flex-1 rounded-xl focus:border-red-500 focus:outline-none transition-colors text-sm"
+                                    />
+                                    <button
+                                        onClick={addCustomIngredient}
+                                        className="bg-red-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:bg-red-600 transition-colors shadow-md text-sm whitespace-nowrap"
+                                    >
+                                        Add
+                                    </button>
+                                </div>
                             </div>
-                        )}
+
+
+                        </div>
                     </div>
 
                     {/* Find Recipes Button - Responsive text */}

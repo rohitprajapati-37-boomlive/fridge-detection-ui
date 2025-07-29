@@ -34,23 +34,23 @@ const Faq = () => {
 
   const faqs = [
     {
-      question: "How does FindRecipe work?",
+      question: "How does Recipefinder work?",
       answer: "Upload a photo of your ingredients, and the tool will automatically detect them to suggest recipes you can cook—sourced from India Food Network's website and YouTube channel."
     },
     {
       question: "Can I find both Indian and global recipes?",
-      answer: "Yes, FindRecipe shows you a mix of Indian and international recipes based on the ingredients in your uploaded photo."
+      answer: "Yes, Recipefinder shows you a mix of Indian and international recipes based on the ingredients in your uploaded photo."
     },
     {
       question: "Where do the recipe suggestions come from?",
       answer: "All recipes are pulled directly from trusted content published by India Food Network on its website and YouTube channel."
     },
     {
-      question: "Do I need to install anything to use FindRecipe?",
+      question: "Do I need to install anything to use Recipefinder?",
       answer: "No, it's a web-based tool. You can use it on your phone or desktop browser—no app download required."
     },
     {
-      question: "Is FindRecipe free to use?",
+      question: "Is Recipefinder free to use?",
       answer: "Yes, it's completely free for all users. Just upload your image and start exploring recipes instantly."
     }
   ];

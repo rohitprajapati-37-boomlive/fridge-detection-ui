@@ -169,6 +169,7 @@ const IFNRecipeApp = () => {
     const [error, setError] = useState(null);
     const [visibleCount, setVisibleCount] = useState(4); // Show 4 cards initially
     const [activeMode, setActiveMode] = useState("photo"); // "photo" or "ai"
+    const uploadPhotoRef = useRef(null);
 
     const fetchRecipes = async (ingredientsList) => {
         try {
@@ -507,6 +508,21 @@ const IFNRecipeApp = () => {
         ]);
     }, []);
 
+    // Mode switch handler
+    const handleModeSwitch = (mode) => {
+        setActiveMode(mode);
+        if (mode === "photo") {
+            setUserQuery("");
+            setTimeout(() => {
+                uploadPhotoRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 100);
+        } else if (mode === "ai") {
+            setUploadedImageUrl("");
+            setDetectedIngredients([]);
+            setAnalyzing(false);
+        }
+    };
+
     return (
         <div className="py-8 bg-gradient-to-br via-red-50">
             {/* Adjust main container padding */}
@@ -539,7 +555,7 @@ const IFNRecipeApp = () => {
                                 } border-2 rounded-xl p-6 text-center min-h-[200px] flex flex-col justify-center ${
                                     activeMode === "photo" ? "border-orange-400" : "border-gray-200"
                                 }`}
-                                onClick={() => setActiveMode("photo")}
+                                onClick={() => handleModeSwitch("photo")}
                                 tabIndex={0}
                                 role="button"
                                 aria-pressed={activeMode === "photo"}
@@ -555,14 +571,6 @@ const IFNRecipeApp = () => {
                                     Just take a photo of your fridge or pantry - our AI will instantly identify 
                                     ingredients and suggest delicious recipes!
                                 </p>
-                                <div className="flex flex-wrap gap-2 justify-center">
-                                    <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold border border-orange-200">
-                                        ⚡ Instant detection
-                                    </span>
-                                    <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold border border-orange-200">
-                                        🎯 Smart suggestions
-                                    </span>
-                                </div>
                             </div>
                             {/* Chat with Chef AI Option */}
                             <div
@@ -573,7 +581,7 @@ const IFNRecipeApp = () => {
                                 } border-2 rounded-xl p-6 text-center min-h-[200px] flex flex-col justify-center ${
                                     activeMode === "ai" ? "border-green-400" : "border-gray-200"
                                 }`}
-                                onClick={() => setActiveMode("ai")}
+                                onClick={() => handleModeSwitch("ai")}
                                 tabIndex={0}
                                 role="button"
                                 aria-pressed={activeMode === "ai"}
@@ -589,22 +597,13 @@ const IFNRecipeApp = () => {
                                     Describe what you have or what you're craving - get personalized recipe 
                                     recommendations!
                                 </p>
-                                <div className="flex flex-wrap gap-2 justify-center">
-                                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold border border-green-200">
-                                        💭 Natural language
-                                    </span>
-                                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold border border-green-200">
-                                        🎨 Personalized
-                                    </span>
-                                </div>
                             </div>
                         </div>
 
                         {/* Dynamic Content Based on Selected Mode */}
                         {activeMode === "photo" && (
-                            <div>
-                                {/* Upload Fridge Photo Section */}
-                                <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center bg-gray-50 hover:bg-green-50 hover:border-green-400 transition-all duration-300 mb-6">
+                            <div ref={uploadPhotoRef}>
+                                <div className="border-2 border-dashed border-green-400 rounded-xl p-4 sm:p-8 text-center bg-gray-50 hover:bg-green-50 transition-all duration-300 mb-6 overflow-visible">
     <input
         type="file"
         accept="image/*"
@@ -618,10 +617,10 @@ const IFNRecipeApp = () => {
             }
         }}
     />
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-3">
         <button
             type="button"
-            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 cursor-pointer"
+            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-4 py-3 rounded-lg font-bold flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer w-full justify-center"
             onClick={() => document.getElementById('fridge-photo').click()}
         >
             <Camera className="w-5 h-5" />
@@ -633,33 +632,37 @@ const IFNRecipeApp = () => {
     </div>
     {/* Image Preview & Detected Ingredients */}
     {uploadedImageUrl && (
-        <div className="mt-6 relative inline-block">
+        <div className="mt-4 w-full flex flex-col items-center">
             <img
                 src={uploadedImageUrl}
                 alt="Uploaded ingredients"
-                className="max-h-64 rounded-xl shadow-lg mx-auto"
+                className="max-h-48 w-auto rounded-xl shadow-lg mx-auto object-contain"
             />
-            <div className="absolute inset-0 bg-black bg-opacity-30 rounded-xl flex flex-col justify-between p-4">
-                <button
-                    onClick={() => {
-                        setUploadedImageUrl('');
-                        setDetectedIngredients([]);
-                        setAnalyzing(false);
-                    }}
-                    className="self-end bg-white bg-opacity-90 hover:bg-red-500 hover:text-white text-gray-600 w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all duration-200"
-                >
-                    ×
-                </button>
-                {analyzing && (
-                    <div className="bg-green-600 bg-opacity-95 text-white px-4 py-2 rounded-lg text-center z-index: 9 animate-pulse">
-                        🔍 Analyzing your ingredients...
-                    </div>
-                )}
-                {!analyzing && detectedIngredients.length > 0 && (
-                    <div className="bg-green-600 bg-opacity-95 text-white px-4 py-2 rounded-lg text-center">
-                        ✅ Found: {detectedIngredients.join(', ')}
-                    </div>
-                )}
+            <div className="relative w-full flex flex-col items-center">
+                <div className="absolute top-2 right-2 z-10">
+                    <button
+                        onClick={() => {
+                            setUploadedImageUrl('');
+                            setDetectedIngredients([]);
+                            setAnalyzing(false);
+                        }}
+                        className="bg-white bg-opacity-90 hover:bg-red-500 hover:text-white text-gray-600 w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all duration-200"
+                    >
+                        ×
+                    </button>
+                </div>
+                <div className="w-full mt-4">
+                    {analyzing && (
+                        <div className="bg-green-600 bg-opacity-95 text-white px-3 py-2 rounded-lg text-center animate-pulse text-sm">
+                            🔍 Analyzing your ingredients...
+                        </div>
+                    )}
+                    {!analyzing && detectedIngredients.length > 0 && (
+                        <div className="bg-green-600 bg-opacity-95 text-white px-3 py-2 rounded-lg text-center text-sm max-h-40 overflow-y-auto">
+                            <span className="font-bold">✓ Found:</span> {detectedIngredients.join(', ')}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     )}
@@ -671,41 +674,59 @@ const IFNRecipeApp = () => {
                             <div>
                                 {/* User Query Section - Input, Search, Voice */}
                                 <div className="bg-gray-50 rounded-xl p-6">
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <div className="relative flex-1">
-                                            <input
-                                                type="text"
-                                                placeholder="e.g. I have chicken, rice and tomatoes. What can I cook?"
-                                                value={userQuery}
-                                                onChange={(e) => setUserQuery(e.target.value)}
-                                                onKeyDown={(e) => e.key === "Enter" && handleUserQuery()}
-                                                className="w-full pl-4 pr-20 py-4 rounded-xl border-2 border-gray-200 focus:border-green-500 focus:outline-none text-base"
-                                            />
-                                            {/* Voice Search and Search Buttons */}
-                                            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
-                                                <button
-                                                    onClick={handleVoiceInput}
-                                                    className={`bg-blue-600 hover:bg-blue-700 text-white rounded-lg w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200 ${
-                                                        isListening ? "animate-pulse" : ""
-                                                    }`}
-                                                    title="Voice Search"
-                                                >
-                                                    🎤
-                                                </button>
-                                                <button
-                                                    onClick={handleUserQuery}
-                                                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200"
-                                                    title="Search"
-                                                >
-                                                    <Search className="w-5 h-5" />
-                                                </button>
-                                            </div>
-                                            {isListening && (
-                                                <span className="absolute right-20 top-1/2 -translate-y-1/2 text-green-500 text-xs animate-pulse font-medium">
-                                                    Listening...
-                                                </span>
-                                            )}
+                                    {/* MOBILE: input upar, buttons neeche. DESKTOP: input+buttons ek row me */}
+                                    <div className="flex flex-col sm:flex-row items-stretch gap-3 mb-4">
+                                        <input
+                                            type="text"
+                                            placeholder="e.g. I have chicken, rice and tomatoes. What can I cook?"
+                                            value={userQuery}
+                                            onChange={(e) => setUserQuery(e.target.value)}
+                                            onKeyDown={(e) => e.key === "Enter" && handleUserQuery()}
+                                            className="w-full pl-4 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-green-500 focus:outline-none text-base"
+                                            style={{ minHeight: 48 }}
+                                        />
+                                        {/* Desktop: buttons right of input */}
+                                        <div className="hidden sm:flex gap-3">
+                                            <button
+                                                onClick={handleVoiceInput}
+                                                className={`bg-blue-600 hover:bg-blue-700 text-white rounded-lg w-12 h-12 flex items-center justify-center shadow-lg transition-all duration-200 ${
+                                                    isListening ? "animate-pulse" : ""
+                                                }`}
+                                                title="Voice Search"
+                                                tabIndex={-1}
+                                            >
+                                                🎤
+                                            </button>
+                                            <button
+                                                onClick={handleUserQuery}
+                                                className="bg-green-600 hover:bg-green-700 text-white rounded-lg w-12 h-12 flex items-center justify-center shadow-lg transition-all duration-200"
+                                                title="Search"
+                                                tabIndex={-1}
+                                            >
+                                                <Search className="w-6 h-6" />
+                                            </button>
                                         </div>
+                                    </div>
+                                    {/* Mobile: buttons below input */}
+                                    <div className="flex sm:hidden w-full gap-3 mb-2">
+                                        <button
+                                            onClick={handleVoiceInput}
+                                            className={`flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg h-12 flex items-center justify-center shadow-lg transition-all duration-200 ${
+                                                isListening ? "animate-pulse" : ""
+                                            }`}
+                                            title="Voice Search"
+                                            tabIndex={-1}
+                                        >
+                                            🎤
+                                        </button>
+                                        <button
+                                            onClick={handleUserQuery}
+                                            className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-lg h-12 flex items-center justify-center shadow-lg transition-all duration-200"
+                                            title="Search"
+                                            tabIndex={-1}
+                                        >
+                                            <Search className="w-6 h-6" />
+                                        </button>
                                     </div>
                                     {/* Example Cards */}
                                     <div>
@@ -738,30 +759,31 @@ const IFNRecipeApp = () => {
                     </div>
 
                     {/* Find Recipes Button - Responsive text */}
-                    <div className="mt-8">
-                        <button
-                            onClick={handleFindRecipes}
-                            disabled={selectedIngredients.length === 0 || fetchingRecipes}
-                            className={`w-full p-3 sm:p-4 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base ${selectedIngredients.length && !fetchingRecipes
-                                ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
-                                : "bg-gray-300 cursor-not-allowed"
-                                }`}
-                        >
-                            {fetchingRecipes ? (
-                                <div className="flex items-center justify-center gap-2">
-                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                                    <span>Finding Recipes...</span>
-                                </div>
-                            ) : (
-                                <div className="flex items-center justify-center gap-2">
-                                    <Search className="w-5 h-5" />
-                                    <span className="hidden sm:inline">Find Perfect Recipes for Me!</span>
-                                    <span className="sm:hidden">Find Recipes</span>
-                                    <span>({selectedIngredients.length})</span>
-                                </div>
-                            )}
-                        </button>
-                    </div>
+                    <div className="mt-2">
+    <button
+        onClick={handleFindRecipes}
+        disabled={selectedIngredients.length === 0 || fetchingRecipes}
+        className={`w-full p-3 sm:p-4 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base ${
+            selectedIngredients.length && !fetchingRecipes
+                ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+                : "bg-gray-300 cursor-not-allowed"
+        }`}
+    >
+        {fetchingRecipes ? (
+            <div className="flex items-center justify-center gap-2">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                <span>Finding Recipes...</span>
+            </div>
+        ) : (
+            <div className="flex items-center justify-center gap-2">
+                <Search className="w-5 h-5" />
+                <span className="hidden sm:inline">Find Perfect Recipes for Me!</span>
+                <span className="sm:hidden">Find Recipes</span>
+                <span>({selectedIngredients.length})</span>
+            </div>
+        )}
+    </button>
+</div>
                 </div>
 
                 {/* pura page loading show  */}

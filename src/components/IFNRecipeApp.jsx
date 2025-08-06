@@ -674,59 +674,41 @@ const IFNRecipeApp = () => {
                             <div>
                                 {/* User Query Section - Input, Search, Voice */}
                                 <div className="bg-gray-50 rounded-xl p-6">
-                                    {/* MOBILE: input upar, buttons neeche. DESKTOP: input+buttons ek row me */}
-                                    <div className="flex flex-col sm:flex-row items-stretch gap-3 mb-4">
-                                        <input
-                                            type="text"
-                                            placeholder="e.g. I have chicken, rice and tomatoes. What can I cook?"
-                                            value={userQuery}
-                                            onChange={(e) => setUserQuery(e.target.value)}
-                                            onKeyDown={(e) => e.key === "Enter" && handleUserQuery()}
-                                            className="w-full pl-4 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-green-500 focus:outline-none text-base"
-                                            style={{ minHeight: 48 }}
-                                        />
-                                        {/* Desktop: buttons right of input */}
-                                        <div className="hidden sm:flex gap-3">
-                                            <button
-                                                onClick={handleVoiceInput}
-                                                className={`bg-blue-600 hover:bg-blue-700 text-white rounded-lg w-12 h-12 flex items-center justify-center shadow-lg transition-all duration-200 ${
-                                                    isListening ? "animate-pulse" : ""
-                                                }`}
-                                                title="Voice Search"
-                                                tabIndex={-1}
-                                            >
-                                                🎤
-                                            </button>
-                                            <button
-                                                onClick={handleUserQuery}
-                                                className="bg-green-600 hover:bg-green-700 text-white rounded-lg w-12 h-12 flex items-center justify-center shadow-lg transition-all duration-200"
-                                                title="Search"
-                                                tabIndex={-1}
-                                            >
-                                                <Search className="w-6 h-6" />
-                                            </button>
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <div className="relative flex-1">
+                                            <input
+                                                type="text"
+                                                placeholder="e.g. I have chicken, rice and tomatoes. What can I cook?"
+                                                value={userQuery}
+                                                onChange={(e) => setUserQuery(e.target.value)}
+                                                onKeyDown={(e) => e.key === "Enter" && handleUserQuery()}
+                                                className="w-full pl-4 pr-20 py-4 rounded-xl border-2 border-gray-200 focus:border-green-500 focus:outline-none text-base"
+                                            />
+                                            {/* Voice Search and Search Buttons */}
+                                            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
+                                                <button
+                                                    onClick={handleVoiceInput}
+                                                    className={`bg-blue-600 hover:bg-blue-700 text-white rounded-lg w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200 ${
+                                                        isListening ? "animate-pulse" : ""
+                                                    }`}
+                                                    title="Voice Search"
+                                                >
+                                                    🎤
+                                                </button>
+                                                <button
+                                                    onClick={handleUserQuery}
+                                                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg w-10 h-10 flex items-center justify-center shadow-lg transition-all duration-200"
+                                                    title="Search"
+                                                >
+                                                    <Search className="w-5 h-5" />
+                                                </button>
+                                            </div>
+                                            {isListening && (
+                                                <span className="absolute right-20 top-1/2 -translate-y-1/2 text-green-500 text-xs animate-pulse font-medium">
+                                                    Listening...
+                                                </span>
+                                            )}
                                         </div>
-                                    </div>
-                                    {/* Mobile: buttons below input */}
-                                    <div className="flex sm:hidden w-full gap-3 mb-2">
-                                        <button
-                                            onClick={handleVoiceInput}
-                                            className={`flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg h-12 flex items-center justify-center shadow-lg transition-all duration-200 ${
-                                                isListening ? "animate-pulse" : ""
-                                            }`}
-                                            title="Voice Search"
-                                            tabIndex={-1}
-                                        >
-                                            🎤
-                                        </button>
-                                        <button
-                                            onClick={handleUserQuery}
-                                            className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-lg h-12 flex items-center justify-center shadow-lg transition-all duration-200"
-                                            title="Search"
-                                            tabIndex={-1}
-                                        >
-                                            <Search className="w-6 h-6" />
-                                        </button>
                                     </div>
                                     {/* Example Cards */}
                                     <div>
@@ -759,15 +741,15 @@ const IFNRecipeApp = () => {
                     </div>
 
                     {/* Find Recipes Button - Responsive text */}
-                    <div className="mt-2">
+                    <div className="mt-8">
     <button
         onClick={handleFindRecipes}
         disabled={selectedIngredients.length === 0 || fetchingRecipes}
-        className={`w-full p-3 sm:p-4 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base ${
-            selectedIngredients.length && !fetchingRecipes
-                ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
-                : "bg-gray-300 cursor-not-allowed"
-        }`}
+        className={`w-full p-3 sm:p-4 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base ${selectedIngredients.length && !fetchingRecipes
+            ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+            : "bg-gray-300 cursor-not-allowed"
+            } fixed bottom-4 left-1/2 -translate-x-1/2 max-w-xs z-40`}
+        style={{maxWidth: 360}}
     >
         {fetchingRecipes ? (
             <div className="flex items-center justify-center gap-2">

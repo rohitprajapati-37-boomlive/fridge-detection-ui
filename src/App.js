@@ -2,6 +2,7 @@ import { useState } from "react";
 import './App.css';
 import Navbar from "./components/Navbar";
 import IFNRecipeApp from "./components/IFNRecipeApp";
+import FeaturedRecipes from './components/FeaturedRecipes';
 import Faq from './components/Faq';
 
 function App() {
@@ -26,7 +27,10 @@ function App() {
 
       <div className="bg-white">
         <IFNRecipeApp />
+  <FeaturedRecipes />
+
         <Faq />
+
       </div>
     </>
   );

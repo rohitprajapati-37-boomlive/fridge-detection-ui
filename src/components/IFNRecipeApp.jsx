@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-// import { Camera, X, Search, ArrowLeft, ChefHat, Clock, Users, Star } from "lucide-react";
 import {
     Camera,
     X,
@@ -210,7 +209,7 @@ const IFNRecipeApp = () => {
             setRecipeDatabase([]);
         } finally {
             setLoading(false);
-            setFetchingRecipes(false); // YE LINE ADD KAREIN
+            setFetchingRecipes(false);
         }
     };
 
@@ -391,7 +390,7 @@ const IFNRecipeApp = () => {
             return;
         }
 
-        setFetchingRecipes(true); // YE LINE ADD KAREIN
+        setFetchingRecipes(true);
         await fetchRecipes(selectedIngredients);
         setShowRecipes(true);
 
@@ -422,7 +421,7 @@ const IFNRecipeApp = () => {
     const handleUserQuery = async () => {
         if (!userQuery.trim()) return;
         setQueryLoading(true);
-        setFetchingRecipes(true); // <-- Add this
+        setFetchingRecipes(true);
         setQueryError(null);
         setQueryRecipes([]);
         // Add input as selected ingredient
@@ -453,12 +452,12 @@ const IFNRecipeApp = () => {
                     block: "start",
                 });
             }, 100);
-            setUserQuery(""); // <-- Input clear after submit
+            setUserQuery("");
         } catch (err) {
             setQueryError("No recipes found or server error.");
         } finally {
             setQueryLoading(false);
-            setFetchingRecipes(false); // <-- Add this
+            setFetchingRecipes(false);
         }
     };
 
@@ -500,7 +499,7 @@ const IFNRecipeApp = () => {
                     {
                         title: "How to make Gajar Paratha",
                         video_url: "https://youtube.com/xyz",
-                        thumbnail_url: "" // <-- Fix: use thumbnail_url, not thumbnail
+                        thumbnail_url: ""
                     }
                 ]
             },
@@ -530,16 +529,16 @@ const IFNRecipeApp = () => {
                 <div className="ktn-recp-ingdnt bg-white rounded-2xl shadow-xl p-4 sm:p-8 border border-gray-100 mb-8">
                     {/* Header Section */}
                     <div className="text-center p-8 bg-gradient-to-br from-orange-50 to-red-50">
-                          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-3">
-              🍛 What's in Your Fridge?
-            </h1>
-            <strong className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">Got food ingredients in your kitchen? Let’s turn them into magic!
-            </strong>
-            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
-              Just enter what you have at home, and we’ll suggest authentic Indian recipes you can cook right now. Discover new flavors, reduce food waste, and bring India’s rich culinary heritage to life, one delicious dish at a time.
-            </p>
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-3">
+                            🍛 What's in Your Fridge?
+                        </h1>
+                        <strong className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">Got food ingredients in your kitchen? Let's turn them into magic!
+                        </strong>
+                        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+                            Just enter what you have at home, and we'll suggest authentic Indian recipes you can cook right now. Discover new flavors, reduce food waste, and bring India's rich culinary heritage to life, one delicious dish at a time.
+                        </p>
                         <div className="text-sm text-gray-500 font-medium">
-                            Powered by <a href="https://www.indiafoodnetwork.in/" target="_blank" rel="noopener noreferrer"   class="text-orange-700  hover:text-green-700 "   >India Food Network</a>
+                            Powered by <a href="https://www.indiafoodnetwork.in/" target="_blank" rel="noopener noreferrer" className="text-orange-700 hover:text-green-700">India Food Network</a>
                         </div>
                     </div>
 
@@ -604,69 +603,69 @@ const IFNRecipeApp = () => {
                         {activeMode === "photo" && (
                             <div ref={uploadPhotoRef}>
                                 <div className="border-2 border-dashed border-green-400 rounded-xl p-4 sm:p-8 text-center bg-gray-50 hover:bg-green-50 transition-all duration-300 mb-6 overflow-visible">
-    <input
-        type="file"
-        accept="image/*"
-        id="fridge-photo"
-        className="hidden"
-        onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) {
-                setUploadedImageUrl(URL.createObjectURL(file));
-                detectItemsFromImage(file);
-            }
-        }}
-    />
-    <div className="flex flex-col items-center gap-3">
-        <button
-            type="button"
-            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-4 py-3 rounded-lg font-bold flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer w-full justify-center"
-            onClick={() => document.getElementById('fridge-photo').click()}
-        >
-            <Camera className="w-5 h-5" />
-            Upload Fridge Photo
-        </button>
-        <span className="text-gray-600 text-sm">
-            or take a picture of your ingredients
-        </span>
-    </div>
-    {/* Image Preview & Detected Ingredients */}
-    {uploadedImageUrl && (
-        <div className="mt-4 w-full flex flex-col items-center">
-            <img
-                src={uploadedImageUrl}
-                alt="Uploaded ingredients"
-                className="max-h-48 w-auto rounded-xl shadow-lg mx-auto object-contain"
-            />
-            <div className="relative w-full flex flex-col items-center">
-                <div className="absolute top-2 right-2 z-10">
-                    <button
-                        onClick={() => {
-                            setUploadedImageUrl('');
-                            setDetectedIngredients([]);
-                            setAnalyzing(false);
-                        }}
-                        className="bg-white bg-opacity-90 hover:bg-red-500 hover:text-white text-gray-600 w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all duration-200"
-                    >
-                        ×
-                    </button>
-                </div>
-                <div className="w-full mt-4">
-                    {analyzing && (
-                        <div className="bg-green-600 bg-opacity-95 text-white px-3 py-2 rounded-lg text-center animate-pulse text-sm">
-                            🔍 Analyzing your ingredients...
-                        </div>
-                    )}
-                    {!analyzing && detectedIngredients.length > 0 && (
-                        <div className="bg-green-600 bg-opacity-95 text-white px-3 py-2 rounded-lg text-center text-sm max-h-40 overflow-y-auto">
-                            <span className="font-bold">✓ Found:</span> {detectedIngredients.join(', ')}
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div>
-    )}
-</div>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        id="fridge-photo"
+                                        className="hidden"
+                                        onChange={(e) => {
+                                            const file = e.target.files?.[0];
+                                            if (file) {
+                                                setUploadedImageUrl(URL.createObjectURL(file));
+                                                detectItemsFromImage(file);
+                                            }
+                                        }}
+                                    />
+                                    <div className="flex flex-col items-center gap-3">
+                                        <button
+                                            type="button"
+                                            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-4 py-3 rounded-lg font-bold flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer w-full justify-center"
+                                            onClick={() => document.getElementById('fridge-photo').click()}
+                                        >
+                                            <Camera className="w-5 h-5" />
+                                            Upload Fridge Photo
+                                        </button>
+                                        <span className="text-gray-600 text-sm">
+                                            or take a picture of your ingredients
+                                        </span>
+                                    </div>
+                                    {/* Image Preview & Detected Ingredients */}
+                                    {uploadedImageUrl && (
+                                        <div className="mt-4 w-full flex flex-col items-center">
+                                            <img
+                                                src={uploadedImageUrl}
+                                                alt="Uploaded ingredients"
+                                                className="max-h-48 w-auto rounded-xl shadow-lg mx-auto object-contain"
+                                            />
+                                            <div className="relative w-full flex flex-col items-center">
+                                                <div className="absolute top-2 right-2 z-10">
+                                                    <button
+                                                        onClick={() => {
+                                                            setUploadedImageUrl('');
+                                                            setDetectedIngredients([]);
+                                                            setAnalyzing(false);
+                                                        }}
+                                                        className="bg-white bg-opacity-90 hover:bg-red-500 hover:text-white text-gray-600 w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all duration-200"
+                                                    >
+                                                        ×
+                                                    </button>
+                                                </div>
+                                                <div className="w-full mt-4">
+                                                    {analyzing && (
+                                                        <div className="bg-green-600 bg-opacity-95 text-white px-3 py-2 rounded-lg text-center animate-pulse text-sm">
+                                                            🔍 Analyzing your ingredients...
+                                                        </div>
+                                                    )}
+                                                    {!analyzing && detectedIngredients.length > 0 && (
+                                                        <div className="bg-green-600 bg-opacity-95 text-white px-3 py-2 rounded-lg text-center text-sm max-h-40 overflow-y-auto">
+                                                            <span className="font-bold">✓ Found:</span> {detectedIngredients.join(', ')}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         )}
 
@@ -740,36 +739,35 @@ const IFNRecipeApp = () => {
                         )}
                     </div>
 
-                    {/* Find Recipes Button - Responsive text */}
-                    <div className="mt-8">
-    <button
-        onClick={handleFindRecipes}
-        disabled={selectedIngredients.length === 0 || fetchingRecipes}
-        className={`w-full p-3 sm:p-4 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base ${selectedIngredients.length && !fetchingRecipes
-            ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
-            : "bg-gray-300 cursor-not-allowed"
-            } fixed bottom-4 left-1/2 -translate-x-1/2 max-w-xs z-40`}
-        style={{maxWidth: 360}}
-    >
-        {fetchingRecipes ? (
-            <div className="flex items-center justify-center gap-2">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                <span>Finding Recipes...</span>
-            </div>
-        ) : (
-            <div className="flex items-center justify-center gap-2">
-                <Search className="w-5 h-5" />
-                <span className="hidden sm:inline">Find Perfect Recipes for Me!</span>
-                <span className="sm:hidden">Find Recipes</span>
-                <span>({selectedIngredients.length})</span>
-            </div>
-        )}
-    </button>
-</div>
+                    {/* Find Recipes Button - Now inside container */}
+                    <div className="px-8 pb-8">
+                        <button
+                            onClick={handleFindRecipes}
+                            disabled={selectedIngredients.length === 0 || fetchingRecipes}
+                            className={`w-full p-3 sm:p-4 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base ${
+                                selectedIngredients.length && !fetchingRecipes
+                                    ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+                                    : "bg-gray-300 cursor-not-allowed"
+                            }`}
+                        >
+                            {fetchingRecipes ? (
+                                <div className="flex items-center justify-center gap-2">
+                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                    <span>Finding Recipes...</span>
+                                </div>
+                            ) : (
+                                <div className="flex items-center justify-center gap-2">
+                                    <Search className="w-5 h-5" />
+                                    <span className="hidden sm:inline">Find Perfect Recipes for Me!</span>
+                                    <span className="sm:hidden">Find Recipes</span>
+                                    <span>({selectedIngredients.length})</span>
+                                </div>
+                            )}
+                        </button>
+                    </div>
                 </div>
 
-                {/* pura page loading show  */}
-
+                {/* Full page loading overlay */}
                 {fetchingRecipes && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                         <div className="bg-white rounded-2xl p-8 max-w-md mx-auto text-center shadow-2xl">
@@ -805,10 +803,10 @@ const IFNRecipeApp = () => {
                         {/* Recipe Results Header */}
                         <div className="flex items-center justify-between mb-6">
                             <div>
-                                <h2 className=" sm:text-2xl font-bold text-gray-800 mb-1">
+                                <h2 className="sm:text-2xl font-bold text-gray-800 mb-1">
                                     🍽️ Recipe Suggestions
                                 </h2>
-                                <p className=" sm:text-sm text-gray-600">
+                                <p className="sm:text-sm text-gray-600">
                                     Found {getSuggestedRecipes().length} delicious recipes
                                 </p>
                             </div>
@@ -882,9 +880,6 @@ const IFNRecipeApp = () => {
                                 </button>
                             </div>
                         )}
-
-
-
                     </div>
                 )}
 

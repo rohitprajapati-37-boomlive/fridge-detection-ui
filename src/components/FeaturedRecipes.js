@@ -614,7 +614,7 @@ const FeaturedRecipes = () => {
                                         setCurrentFestival(festival.id);
                                         setCurrentIndex(0);
                                     }}
-                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                                    className={`px-4 py-2 capitalize rounded-full text-sm font-medium transition-all duration-200 ${
                                         currentFestival === festival.id
                                             ? 'bg-red-500 text-white shadow-lg'
                                             : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
@@ -626,9 +626,9 @@ const FeaturedRecipes = () => {
                         </div>
                     )}
 
- <h2 className="text-3xl md:text-4xl  text-gray-800 mb-4 mt-6">
-                        {currentFestivalData.name} Special Collection
-                    </h2>
+<h2 className="text-3xl md:text-4xl text-gray-800 mb-4 mt-6 capitalize">
+  {currentFestivalData.name} Special Collection
+</h2>
 
                 </div>
 

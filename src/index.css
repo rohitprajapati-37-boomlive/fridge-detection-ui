@@ -2,5 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Same brand tokens as tailwind.config.js, exposed to the plain .css files
+   that cannot use Tailwind classes. Keep the two in sync. */
+:root {
+  --flame: #ff6a4d;
+  --flame-100: #ffe9e3;
+  --flame-300: #ffab97;
+  --flame-700: #e04a2c;
 
+  --spice: #6d1414;
+  --spice-100: #f2dcdc;
+  --spice-400: #b04040;
+  --spice-900: #4a0d0d;
 
+  --cream: #fcf9ec;
+  --cream-50: #fffdf7;
+  --cream-300: #eae2c9;
+
+  --butter: #fff8cf;
+  --butter-300: #e8d98d;
+
+  --ink: #2b1512;
+  --ink-muted: #7a6058;
+  --ink-line: #eae2c9;
+}

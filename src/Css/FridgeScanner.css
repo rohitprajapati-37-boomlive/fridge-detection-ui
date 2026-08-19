@@ -1,13 +1,13 @@
 .row-bord-dec-rk {
-    border: 2px dashed #ddd;
+    border: 2px dashed var(--cream-300);
     border-radius: 12px;
-    background: #fafafa;
+    background: var(--cream-50);
     transition: all 0.3s ease;
 }
 
 .row-bord-dec-rk:hover {
-    border-color: #E63946;
-    background: #fff5f5;
+    border-color: var(--flame);
+    background: var(--flame-100);
 
 }
 
@@ -27,14 +27,14 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.4rem 0.5rem;
-    border: 1px solid #f0f0f0;
+    border: 1px solid var(--ink-line);
     border-radius: 2rem;
 }
 
 .btn-txt-itm-rk:hover {
-    background: #E63946;
+    background: var(--spice);
     color: white;
-    border: 1px solid #E63946;
+    border: 1px solid var(--spice);
 }
 
 .border.border-dashed.border-gray-300.p-6.rounded-lg.text-center {
@@ -43,9 +43,9 @@
     align-items: center;
     gap: 0.8rem;
     padding: 2rem;
-    border: 2px dashed #ddd;
+    border: 2px dashed var(--cream-300);
     border-radius: 12px;
-    background: #fafafa;
+    background: var(--cream-50);
     transition: all 0.3s ease;
 }
 

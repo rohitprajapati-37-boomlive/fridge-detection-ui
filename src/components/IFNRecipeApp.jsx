@@ -522,22 +522,22 @@ const IFNRecipeApp = () => {
     };
 
     return (
-        <div className="py-8 bg-gradient-to-br via-red-50">
+        <div className="py-8 bg-cream">
             {/* Adjust main container padding */}
             <div className="px-4 sm:px-6 max-w-6xl mx-auto">
-                <div className="ktn-recp-ingdnt bg-white rounded-2xl shadow-xl p-4 sm:p-8 border border-gray-100 mb-8">
+                <div className="ktn-recp-ingdnt bg-cream-50 rounded-2xl shadow-xl p-4 sm:p-8 border border-ink-line mb-8">
                     {/* Header Section */}
-                    <div className="text-center p-8 bg-gradient-to-br from-orange-50 to-red-50">
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-3">
+                    <div className="text-center p-8 bg-gradient-to-br from-butter-50 to-flame-100">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-spice mb-3">
                             🍛 What's in Your Fridge?
                         </h1>
-                        <strong className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">Got food ingredients in your kitchen? Let's turn them into magic!
+                        <strong className="text-base sm:text-lg text-ink-muted max-w-3xl mx-auto">Got food ingredients in your kitchen? Let's turn them into magic!
                         </strong>
-                        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-base sm:text-lg text-ink-muted max-w-3xl mx-auto">
                             Just enter what you have at home, and we'll suggest authentic Indian recipes you can cook right now. Discover new flavors, reduce food waste, and bring India's rich culinary heritage to life, one delicious dish at a time.
                         </p>
-                        <div className="text-sm text-gray-500 font-medium">
-                            Powered by <a href="https://www.indiafoodnetwork.in/" target="_blank" rel="noopener noreferrer" className="text-orange-700 hover:text-green-700">India Food Network</a>
+                        <div className="text-sm text-ink-muted font-medium">
+                            Powered by <a href="https://www.indiafoodnetwork.in/" target="_blank" rel="noopener noreferrer" className="text-flame-800 hover:text-spice">India Food Network</a>
                         </div>
 
                         <div className="mt-4 newsletter-embed-container mx-auto" style={{ maxWidth: '600px' }}>
@@ -572,7 +572,7 @@ const IFNRecipeApp = () => {
                                 aria-pressed={activeMode === "photo"}
                             >
                                 {activeMode === "photo" && (
-                                    <div className="absolute top-3 right-3 w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                    <div className="absolute top-3 right-3 w-6 h-6 bg-spice text-white rounded-full flex items-center justify-center text-sm font-bold">
                                         ✓
                                     </div>
                                 )}
@@ -598,7 +598,7 @@ const IFNRecipeApp = () => {
                                 aria-pressed={activeMode === "ai"}
                             >
                                 {activeMode === "ai" && (
-                                    <div className="absolute top-3 right-3 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                    <div className="absolute top-3 right-3 w-6 h-6 bg-spice text-white rounded-full flex items-center justify-center text-sm font-bold">
                                         ✓
                                     </div>
                                 )}
@@ -739,7 +739,7 @@ const IFNRecipeApp = () => {
                                                     <span className="text-gray-700 text-sm font-medium">
                                                         "{example}"
                                                     </span>
-                                                    <span className="text-gray-400 group-hover:text-green-500 group-hover:translate-x-1 transition-all duration-200">
+                                                    <span className="text-ink-muted group-hover:text-flame-800 group-hover:translate-x-1 transition-all duration-200">
                                                         →
                                                     </span>
                                                 </div>
@@ -756,10 +756,10 @@ const IFNRecipeApp = () => {
                         <button
                             onClick={handleFindRecipes}
                             disabled={selectedIngredients.length === 0 || fetchingRecipes}
-                            className={`w-full p-3 sm:p-4 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base ${
+                            className={`w-full p-3 sm:p-4 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base ${
                                 selectedIngredients.length && !fetchingRecipes
-                                    ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
-                                    : "bg-gray-300 cursor-not-allowed"
+                                    ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white"
+                                    : "bg-cream-200 text-ink-muted cursor-not-allowed"
                             }`}
                         >
                             {fetchingRecipes ? (

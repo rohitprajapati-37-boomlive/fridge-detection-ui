@@ -78,7 +78,7 @@ const FeaturedRecipes = () => {
                 name: 'Onam',
                 date: '2025-09-05',
                 description: 'Celebrate Kerala\'s harvest festival with traditional Onam Sadya recipes! Experience authentic flavors.',
-                color: 'from-green-500 to-yellow-600',
+                color: 'from-flame-800 to-spice-800',
                 // Mixed content array with both recipes and videos
                 content: [
                     {
@@ -163,7 +163,7 @@ const FeaturedRecipes = () => {
                 name: 'Ganesh Chaturthi',
                 date: '2025-08-29',
                 description: 'Celebrate Lord Ganesha with traditional recipes! Prepare auspicious dishes for Bappa.',
-                color: 'from-orange-500 to-red-600',
+                color: 'from-flame-800 to-spice-700',
                 content: [
                     {
                         id: 1,
@@ -222,7 +222,7 @@ const FeaturedRecipes = () => {
                 name: 'Navratri',
                 date: '2025-09-22',
                 description: 'Nine nights celebrating Goddess Durga with pure fasting recipes for devotion.',
-                color: 'from-red-500 to-pink-600',
+                color: 'from-spice-500 to-spice-800',
                 content: [
                     {
                         id: 1,
@@ -387,11 +387,11 @@ const FeaturedRecipes = () => {
     // Helper functions
     const getRandomGradient = () => {
         const gradients = [
-            'from-blue-500 to-purple-600',
-            'from-orange-500 to-red-600',
-            'from-green-500 to-teal-600',
-            'from-pink-500 to-rose-600',
-            'from-indigo-500 to-blue-600'
+            'from-flame-800 to-spice-800',
+            'from-flame-800 to-spice-700',
+            'from-spice-500 to-spice-800',
+            'from-flame-800 to-flame-900',
+            'from-spice-600 to-spice-900'
         ];
         return gradients[Math.floor(Math.random() * gradients.length)];
     };
@@ -424,16 +424,23 @@ const FeaturedRecipes = () => {
     };
 
     const getTagColor = (type) => {
-        if (festivalTagMappings[type]) return 'bg-red-500';
+        if (festivalTagMappings[type]) return 'bg-flame-800';
         
         switch(type) {
-            case 'Healthy': return 'bg-green-500';
-            case 'Sweet': return 'bg-pink-500';
-            case 'Spicy': return 'bg-red-500';
-            case 'Fasting': return 'bg-purple-500';  
-            case 'Main Course': return 'bg-indigo-500';
-            case 'Snack': return 'bg-yellow-500';
-            default: return 'bg-orange-500';
+            case 'Healthy': return 'bg-spice-500';
+            case 'Sweet': return 'bg-flame-800';
+            case 'Spicy': return 'bg-spice';
+            case 'Fasting': return 'bg-spice-500';  
+            case 'Main Course': return 'bg-spice';
+            case 'Snack': return 'bg-flame-800';
+            default: {
+                // Deterministic, so a category always keeps the same colour.
+                const shades = ['bg-spice', 'bg-spice-500', 'bg-flame-800'];
+                const key = String(type);
+                let h = 0;
+                for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+                return shades[h % shades.length];
+            }
         }
     };
 
@@ -820,9 +827,9 @@ const FeaturedRecipes = () => {
                                                         
                                                         {item.difficulty && (
                                                             <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                                                                item.difficulty === 'EASY' ? 'bg-green-100 text-green-700' :
-                                                                item.difficulty === 'MEDIUM' ? 'bg-yellow-100 text-yellow-700' :
-                                                                'bg-red-100 text-red-700'
+                                                                item.difficulty === 'EASY' ? 'bg-butter text-spice' :
+                                                                item.difficulty === 'MEDIUM' ? 'bg-flame-200 text-flame-900' :
+                                                                'bg-spice text-white'
                                                             }`}>
                                                                 {item.difficulty}
                                                             </span>
@@ -837,7 +844,7 @@ const FeaturedRecipes = () => {
                                                 )}
 
                                                 <button 
-                                                    className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-3 px-4 rounded-lg text-sm font-semibold transition-all duration-200 transform group-hover:scale-105 flex-shrink-0"
+                                                    className="w-full bg-flame hover:bg-flame-400 text-spice-900 py-3 px-4 rounded-lg text-sm font-semibold transition-all duration-200 transform group-hover:scale-105 flex-shrink-0"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         handleCardClick(item);
@@ -869,7 +876,7 @@ const FeaturedRecipes = () => {
                                                 </div>
 
                                                 <div className="absolute inset-0 flex items-center justify-center">
-                                                    <div className="bg-red-600 hover:bg-red-700 text-white rounded-full p-4 transition-all duration-200 transform group-hover:scale-110 shadow-xl opacity-80 group-hover:opacity-100">
+                                                    <div className="bg-flame hover:bg-flame-400 text-spice-900 rounded-full p-4 transition-all duration-200 transform group-hover:scale-110 shadow-xl opacity-80 group-hover:opacity-100">
                                                         <Play className="w-8 h-8" />
                                                     </div>
                                                 </div>

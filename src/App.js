@@ -25,7 +25,7 @@ function App() {
         </div>
       </section> */}
 
-      <div className="bg-white">
+      <div className="bg-cream">
         <IFNRecipeApp />
   <FeaturedRecipes />
 
